@@ -7,24 +7,46 @@ import {
   navLinkClass,
   secondaryBtn,
   ghostBtn,
-  bodyText,
   navSearchInput,
   navSearchClass,
   iconButton,
-  badgeClass
+  badgeClass,
+  mobileMenuWrapper,
+  mobileProfileButton,
+  mobileHamburgerButton,
+  mobileNavLink,
+  mobileSignOutBtn
 } from '../styles/common';
 
 import { NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../store/authStore'
 import { toast } from 'react-hot-toast'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function UserNavBar() {
 
   const logout = useAuth(state => state.logout)
+  const cartCount = useAuth(state => state.cartCount)
+  const refreshCart = useAuth(state => state.refreshCart)
   const navigate = useNavigate()
-  const [open,setOpen] = useState(false)
+
+  const [open, setOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [wishlistCount, setWishlistCount] = useState(0)
+
+  useEffect(() => {
+    refreshCart()
+
+    const updateWishlist = () => {
+      const stored = JSON.parse(localStorage.getItem('wishlist')) || []
+      setWishlistCount(stored.length)
+    }
+
+    updateWishlist()
+    window.addEventListener('wishlistUpdated', updateWishlist)
+    return () => window.removeEventListener('wishlistUpdated', updateWishlist)
+
+  }, [refreshCart])
 
   const SignOut = async () => {
     await logout()
@@ -34,188 +56,188 @@ function UserNavBar() {
     setIsMenuOpen(false)
   }
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-    setOpen(false) // Close profile menu if open
-  }
-
   return (
-    <div className={navbarClass}>
-      <div className={navContainerClass}>
+    <div className={navbarClass + " h-14 flex items-center"}>
+
+      <div className={navContainerClass + " flex items-center justify-between w-full"}>
 
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <span className={navBrandClass}>JYOS</span>
-        </div>
+        <span className={navBrandClass + " text-white"}>JYOS</span>
 
-        {/* Search Bar - Hidden on mobile */}
-        <div className={`${navSearchClass} hidden sm:block`}>
+        {/* Desktop Search */}
+        <div className={`${navSearchClass} hidden md:block`}>
           <input
             type="text"
             placeholder="Search products..."
-            className={navSearchInput}
+            className={navSearchInput + " h-9"}
           />
         </div>
 
-        {/* Desktop Links + Cart + Profile */}
-        <nav className={navLinksClass}>
-          <ul className="flex items-center gap-5">
+        {/* Desktop Nav */}
+        <nav className={navLinksClass + " hidden md:block"}>
+          <ul className="flex items-center gap-4">
 
             <li>
-              <NavLink to="" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Products
               </NavLink>
             </li>
 
             <li>
-              <NavLink to="cart" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/wishlist" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+                Wishlist
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/cart" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Cart
               </NavLink>
             </li>
 
-            {/* Cart Icon */}
+            {/* Cart */}
             <li className="relative">
               <button
                 onClick={() => navigate('/cart')}
-                className={iconButton}
+                className={iconButton + " text-white w-8 h-8 text-lg"}
               >
                 🛒
-                {/* Cart Badge - placeholder for now */}
-                <span className={badgeClass}>0</span>
+                {cartCount > 0 && (
+                  <span className={badgeClass}>{cartCount}</span>
+                )}
               </button>
             </li>
 
-            {/* Profile Icon */}
+            {/* Wishlist */}
             <li className="relative">
-
               <button
-                onClick={()=>setOpen(!open)}
-                className={iconButton}
+                onClick={() => navigate('/wishlist')}
+                className={iconButton + " text-white w-8 h-8 text-lg"}
+              >
+                ❤️
+                {wishlistCount > 0 && (
+                  <span className={badgeClass}>{wishlistCount}</span>
+                )}
+              </button>
+            </li>
+
+            {/* Profile */}
+            <li className="relative">
+              <button
+                onClick={() => setOpen(!open)}
+                className={iconButton + " text-white w-8 h-8 text-lg"}
               >
                 👤
               </button>
 
               {open && (
-                <div className="absolute right-0 mt-3 bg-white border border-gray-300 rounded-lg p-3 flex flex-col gap-2 min-w-40 shadow-lg z-50">
+                <div className="absolute right-0 mt-2 bg-white text-black rounded-lg p-3 shadow-lg z-50">
 
                   <button
-                    onClick={()=>navigate('/edit-user')}
-                    className={ghostBtn + " text-left"}
+                    onClick={() => navigate('/edit-user')}
+                    className={ghostBtn + " w-full text-left"}
                   >
                     Edit Details
                   </button>
 
                   <button
-                    onClick={()=>navigate('/change-password')}
-                    className={ghostBtn + " text-left cursor-pointer"}
+                    onClick={() => navigate('/change-password')}
+                    className={ghostBtn + " w-full text-left"}
                   >
                     Change Password
                   </button>
 
                   <button
                     onClick={SignOut}
-                    className={secondaryBtn + " text-left"}
+                    className={secondaryBtn + " w-full text-left"}
                   >
                     Sign Out
                   </button>
 
                 </div>
               )}
-
             </li>
 
           </ul>
         </nav>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMenu}
-          className={`${iconButton} md:hidden`}
-          aria-label="Toggle menu"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* RIGHT SIDE (PROFILE + HAMBURGER) */}
+        <div className="flex items-center gap-2 md:hidden">
+
+          {/* Profile */}
+          <button
+            onClick={() => setOpen(!open)}
+            className={mobileProfileButton}
           >
-            {isMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            👤
+          </button>
+
+          {/* Hamburger only shows when profile is open */}
+          {open && (
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={mobileHamburgerButton}
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
                 strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
-        </button>
+                viewBox="0 0 24 24"
+              >
+                {isMenuOpen ? (
+                  <path d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          )}
+
+        </div>
 
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       {isMenuOpen && (
-        <div className="md:hidden bg-[#131921] border-t border-[#2f3a48]">
-          <div className="px-4 py-4 space-y-4">
+        <div className={mobileMenuWrapper}>
 
-            {/* Mobile Search */}
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className={navSearchInput}
-              />
-            </div>
+          {/* Mobile Search */}
+          <input
+            type="text"
+            placeholder="Search products..."
+            className={navSearchInput}
+          />
 
-            <NavLink
-              to=""
-              className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Products
-            </NavLink>
+          <NavLink to="/" className={mobileNavLink} onClick={() => setIsMenuOpen(false)}>
+            Products
+          </NavLink>
 
-            <NavLink
-              to="cart"
-              className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Cart
-            </NavLink>
+          <NavLink to="/wishlist" className={mobileNavLink} onClick={() => setIsMenuOpen(false)}>
+            Wishlist
+          </NavLink>
 
-            {/* Mobile Profile Menu */}
-            <div className="border-t border-[#2f3a48] pt-4 space-y-2">
-              <button
-                onClick={()=>{navigate('/edit-user'); setIsMenuOpen(false)}}
-                className={ghostBtn + " text-left w-full"}
-              >
-                Edit Details
-              </button>
+          <NavLink to="/cart" className={mobileNavLink} onClick={() => setIsMenuOpen(false)}>
+            Cart
+          </NavLink>
 
-              <button
-                onClick={()=>{navigate('/change-password'); setIsMenuOpen(false)}}
-                className={ghostBtn + " text-left w-full cursor-pointer"}
-              >
-                Change Password
-              </button>
+          <div className="border-t border-gray-700 pt-2 space-y-2">
+            <button onClick={() => navigate('/edit-user')} className={mobileNavLink}>
+              Edit Details
+            </button>
 
-              <button
-                onClick={SignOut}
-                className={secondaryBtn + " text-left w-full"}
-              >
-                Sign Out
-              </button>
-            </div>
+            <button onClick={() => navigate('/change-password')} className={mobileNavLink}>
+              Change Password
+            </button>
 
+            <button onClick={SignOut} className={mobileSignOutBtn}>
+              Sign Out
+            </button>
           </div>
+
         </div>
       )}
+
     </div>
   )
 }

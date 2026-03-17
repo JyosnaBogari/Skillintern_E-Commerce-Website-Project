@@ -25,7 +25,7 @@ function UserProfile() {
   const navigate = useNavigate();
 
   const gotoProduct = (productObj) => {
-    navigate('/productcard', { state: { product: productObj } })
+    navigate(`/product/${productObj._id}`)
   }
 
   useEffect(() => {

@@ -4,7 +4,8 @@
 
 // ─── Layout ───────────────────────────────────────────
 export const pageBackground = "bg-[#f5f5f7] min-h-screen"
-export const pageWrapper    = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16"
+// export const pageWrapper    = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16"
+export const pageWrapper = "w-full px-2 sm:px-4 lg:px-6 py-6 sm:py-8"
 export const section        = "mb-8 sm:mb-12 lg:mb-14"
 
 // ─── Cards ────────────────────────────────────────────
@@ -61,8 +62,8 @@ export const dealCardClass      = "bg-white rounded-2xl p-4 shadow-sm hover:shad
 export const dealBadgeClass     = "inline-flex items-center gap-2 rounded-full bg-[#ff9900]/10 px-3 py-1 text-xs font-semibold text-[#ff9900]"
 
 // ─── Filters ─────────────────────────────────────────
-export const filterSidebar =
-"w-full lg:w-[28rem] xl:w-[32rem] bg-[#fafafa] rounded-lg border-2 border-[#f0f0f0] p-4 sm:p-6 space-y-6 sm:space-y-8 sticky top-20 sm:top-24 shadow-md h-fit z-40 mb-6 lg:mb-0"
+// export const filterSidebar =
+// "w-full lg:w-[28rem] xl:w-[32rem] bg-[#fafafa] rounded-lg border-2 border-[#f0f0f0] p-4 sm:p-6 space-y-6 sm:space-y-8 sticky top-20 sm:top-24 shadow-md h-fit z-40 mb-6 lg:mb-0"
 export const filterTitle        = "text-sm sm:text-base font-bold text-[#131921] mb-4 flex items-center gap-2"
 export const filterLabel        = "text-xs sm:text-sm text-[#666] mb-2 block"
 export const filterInput        = "w-full rounded-lg border-2 border-[#e0e0e0] bg-white px-4 py-3 text-sm sm:text-base focus:border-[#ff9900] focus:outline-none focus:ring-2 focus:ring-[#ff9900]/30 transition shadow-sm"
@@ -139,3 +140,38 @@ export const sidebarActive =
 
 export const contentArea =
   "flex-1 p-4 sm:p-6 lg:p-10"
+
+
+  export const filterSidebar =
+"w-full lg:w-72 xl:w-80 bg-[#fafafa] rounded-lg border-2 border-[#f0f0f0] p-4 sm:p-6 space-y-6 sm:space-y-8 sticky top-20 sm:top-24 shadow-md h-fit z-40 mb-6 lg:mb-0"
+
+
+//
+
+// ─── Navbar / Header Adjustments ─────────────────────────────────
+
+// Make the mobile menu appear below the profile icon
+export const mobileMenuWrapper = `
+  absolute top-full right-0 mt-2 bg-gray-900 text-white px-4 py-3 space-y-3 rounded-lg shadow-lg z-50
+  w-48
+`;
+
+// Adjust mobile buttons alignment
+export const mobileProfileButton = `
+  relative z-50 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition
+`;
+
+// Ensure hamburger is stacked under profile on mobile
+export const mobileHamburgerButton = `
+  relative z-50 inline-flex items-center justify-center w-10 h-10 mt-2 rounded-full hover:bg-white/10 transition
+`;
+
+// Mobile Nav Links
+export const mobileNavLink = `
+  block w-full text-left text-white/80 hover:text-white font-medium py-1
+`;
+
+// Mobile Sign Out button with highlight
+export const mobileSignOutBtn = `
+  block w-full text-left text-red-400 font-medium hover:text-red-200 py-1
+`;

@@ -1,10 +1,12 @@
 import exp from 'express';
 import { connect } from "mongoose";
 import { config } from 'dotenv';
+import { paymentRoute } from "./APIs/paymentAPI.js";
 import { userRoute } from "./APIs/userAPI.js";
 import { commonRoute } from './APIs/commonAPI.js';
 import { adminRoute } from './APIs/adminAPI.js';
 import { productRoute } from './APIs/productAPI.js';
+import {testRoute} from './APIs/testAPI.js'
 import cookieParser from 'cookie-parser';
 import { OrderRoute } from './APIs/orderAPI.js';
 import cors from 'cors';
@@ -42,7 +44,13 @@ app.use('/common-api', commonRoute);
 app.use('/admin-api', adminRoute);
 app.use('/product-api', productRoute)
 app.use('/order-api', OrderRoute)
+// Add this with other routes
+app.use("/payment-api", paymentRoute);
 
+
+//test API razorpay 
+
+app.use('/test-api',testRoute)
 //dealing with invalid path
 //after checking all the pathsi.e APIs then if not match come to here
 app.use((req, res, next) => {

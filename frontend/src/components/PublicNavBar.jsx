@@ -31,7 +31,6 @@ function PublicNavBar() {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && searchValue.trim()) {
-      // Keep Enter behavior but navigation already happened in onChange
       e.preventDefault()
     }
   }
@@ -42,7 +41,7 @@ function PublicNavBar() {
 
   return (
     <div className={navbarClass}>
-      <div className={navContainerClass}>
+      <div className={`${navContainerClass} flex flex-wrap items-center gap-3`}>
 
         {/* Logo */}
         <div className="flex items-center gap-3">
@@ -50,11 +49,11 @@ function PublicNavBar() {
         </div>
 
         {/* Search Bar */}
-        <div className={navSearchClass}>
+        <div className={`${navSearchClass} w-full md:flex-1 order-3 md:order-0`}>
           <input
             type="text"
             placeholder="Search products..."
-            className={navSearchInput}
+            className={`${navSearchInput} w-full`}
             value={searchValue}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}
@@ -62,38 +61,26 @@ function PublicNavBar() {
         </div>
 
         {/* Desktop Links */}
-        <nav className={navLinksClass}>
-          <ul className="flex items-center gap-8">
+        <nav className={`${navLinksClass} hidden md:block`}>
+          <ul className="flex items-center gap-6">
 
             <li>
-              <NavLink
-                to=""
-                className={({ isActive }) =>
-                  isActive ? navLinkActiveClass : navLinkClass
-                }
-              >
+              <NavLink to="/" className={({ isActive }) =>
+                isActive ? navLinkActiveClass : navLinkClass}>
                 Products
               </NavLink>
             </li>
 
             <li>
-              <NavLink
-                to="signup"
-                className={({ isActive }) =>
-                  isActive ? navLinkActiveClass : navLinkClass
-                }
-              >
+              <NavLink to="/signup" className={({ isActive }) =>
+                isActive ? navLinkActiveClass : navLinkClass}>
                 Sign Up
               </NavLink>
             </li>
 
             <li>
-              <NavLink
-                to="signin"
-                className={({ isActive }) =>
-                  isActive ? navLinkActiveClass : navLinkClass
-                }
-              >
+              <NavLink to="/signin" className={({ isActive }) =>
+                isActive ? navLinkActiveClass : navLinkClass}>
                 Sign In
               </NavLink>
             </li>
@@ -104,31 +91,9 @@ function PublicNavBar() {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
-          className={`${iconButton} md:hidden`}
-          aria-label="Toggle menu"
+          className={`${iconButton} md:hidden ml-auto`}
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {isMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
-          </svg>
+          ☰
         </button>
 
       </div>
@@ -136,36 +101,26 @@ function PublicNavBar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-[#131921] border-t border-[#2f3a48]">
-          <div className="px-4 py-4 space-y-4">
-            <NavLink
-              to=""
+          <div className="px-4 py-4 space-y-4 flex flex-col">
+
+            <NavLink to="/" onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                isActive ? navLinkActiveClass : navLinkClass
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
+                isActive ? navLinkActiveClass : navLinkClass}>
               Products
             </NavLink>
 
-            <NavLink
-              to="signup"
+            <NavLink to="/signup" onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                isActive ? navLinkActiveClass : navLinkClass
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
+                isActive ? navLinkActiveClass : navLinkClass}>
               Sign Up
             </NavLink>
 
-            <NavLink
-              to="signin"
+            <NavLink to="/signin" onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                isActive ? navLinkActiveClass : navLinkClass
-              }
-              onClick={() => setIsMenuOpen(false)}
-            >
+                isActive ? navLinkActiveClass : navLinkClass}>
               Sign In
             </NavLink>
+
           </div>
         </div>
       )}

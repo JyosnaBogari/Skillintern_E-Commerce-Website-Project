@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react"
 import {
   loadingClass,
@@ -7,15 +6,11 @@ import {
   productImage,
   productName,
   pageWrapper,
-  pageTitleClass,
-  bodyText,
   emptyStateClass,
-  filterSidebar,
   filterTitle,
   filterInput,
   filterButton,
-  errorClass,
-  filterLabel
+  errorClass
 } from "../styles/common"
 
 import axios from "axios"
@@ -23,6 +18,30 @@ import { useNavigate, useLocation } from "react-router"
 
 function Products() {
 
+  const heroImages = [
+    {
+      src: "https://images.meesho.com/images/marketing/1744698265981.webp",
+      alt: "Shop trending collections",
+      cta: "Shop Now",
+    },
+    {
+      src: "https://ecommercephotographyindia.com/assets/img/gallery/jewellery4.jpg",
+      alt: "Premium jewellery",
+      cta: "Explore Jewellery",
+    },
+    {
+      src: "https://ecommercephotographyindia.com/assets/img/gallery/bangles-set-dark-bg.jpg",
+      alt: "Stylish bangles",
+      cta: "See More",
+    },
+    {
+      src: "https://voilastudio.in/mega_menu/img/indexpagebanner/mobilebanner/luxury_shoot_mobile_banner.webp",
+      alt: "Luxury fashion",
+      cta: "Browse Now",
+    },
+  ];
+
+  const [heroIndex, setHeroIndex] = useState(0);
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -31,6 +50,13 @@ function Products() {
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("wishlist")) || []
     setWishlistCount(stored.length)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % heroImages.length)
+    }, 7000)
+    return () => clearInterval(interval)
   }, [])
 
   const location = useLocation()
@@ -46,7 +72,7 @@ function Products() {
   const [priceMax, setPriceMax] = useState("")
 
   const gotoProduct = (productObj) => {
-    navigate("/productcard", { state: { product: productObj } })
+    navigate(`/product/${productObj._id}`)
   }
 
   useEffect(() => {
@@ -55,7 +81,6 @@ function Products() {
 
   const fetchProducts = async () => {
     try {
-
       setLoading(true)
       setError(null)
 
@@ -133,103 +158,105 @@ function Products() {
 
     <div className={pageWrapper}>
 
-      <h1 className={pageTitleClass}>Products</h1>
-      <p className="text-right font-semibold">
-        ❤️ Wishlist: {wishlistCount}
-      </p>
-      <p className={bodyText + " mb-8"}>
-        Explore our collection of products
-      </p>
+      {/* HERO */}
+      <section className="relative w-full overflow-hidden shadow-lg mb-6">
+        <img
+          src={heroImages[heroIndex].src}
+          alt={heroImages[heroIndex].alt}
+          className="w-full h-48 sm:h-64 md:h-80 lg:h-105 object-center"
+        />
 
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <div className="absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-center px-4">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4">
+            {heroImages[heroIndex].alt}
+          </h2>
 
-        {/* FILTER SIDEBAR */}
+          <button
+            onClick={() => navigate('/')}
+            className="px-6 py-2 bg-orange-500 text-white rounded-full"
+          >
+            {heroImages[heroIndex].cta}
+          </button>
+        </div>
+      </section>
 
-        <aside className={filterSidebar}>
+      {/* WISHLIST */}
+      <div className="flex justify-end mb-4">
+        <div
+          onClick={() => navigate("/wishlist")}
+          className="flex items-center gap-2 bg-white border px-4 py-2 rounded-full cursor-pointer"
+        >
+          ❤️ Wishlist
+          <span className="bg-pink-500 text-white px-2 rounded-full text-xs">
+            {wishlistCount}
+          </span>
+        </div>
+      </div>
 
-          {/* Search Section */}
-          <div className="bg-white rounded-lg p-4 border border-gray-200">
-            <p className={filterTitle}>
-              🔍 Search
-            </p>
+      {/* MAIN LAYOUT (NO OVERLAP) */}
+      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 w-full">
+
+        {/* SIDEBAR (NO FIXED/ABSOLUTE) */}
+        <aside className="w-full lg:w-75 lg:sticky lg:top-20 self-start flex flex-col gap-4">
+
+          <div className="bg-white p-4 border rounded">
+            <p className={filterTitle}>🔍 Search</p>
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={filterInput}
-              placeholder="Search products..."
+              placeholder="Search..."
             />
           </div>
 
-          {/* Category Section */}
-          <div className="bg-white rounded-lg p-4 border border-gray-200">
-            <p className={filterTitle}>
-              📂 Category
-            </p>
+          <div className="bg-white p-4 border rounded">
+            <p className={filterTitle}>📂 Category</p>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className={filterInput}
             >
-              <option value="">All Categories</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat}>
-                  {cat}
-                </option>
+              <option value="">All</option>
+              {categories.map((c, i) => (
+                <option key={i}>{c}</option>
               ))}
             </select>
           </div>
 
-          {/* Brand Section */}
-          <div className="bg-white rounded-lg p-4 border border-gray-200">
-            <p className={filterTitle}>
-              🏷️ Brand
-            </p>
+          <div className="bg-white p-4 border rounded">
+            <p className={filterTitle}>🏷️ Brand</p>
             <select
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
               className={filterInput}
             >
-              <option value="">All Brands</option>
-              {brands.map((b, index) => (
-                <option key={index} value={b}>
-                  {b}
-                </option>
+              <option value="">All</option>
+              {brands.map((b, i) => (
+                <option key={i}>{b}</option>
               ))}
             </select>
           </div>
 
-          {/* Price Section */}
-          <div className="bg-white rounded-lg p-4 border border-gray-200">
-            <p className={filterTitle}>
-              💰 Price Range
-            </p>
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <label className={filterLabel}>Min Price</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={priceMin}
-                  onChange={(e) => setPriceMin(e.target.value)}
-                  className={filterInput}
-                  placeholder="0"
-                />
-              </div>
-              <div className="flex-1">
-                <label className={filterLabel}>Max Price</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={priceMax}
-                  onChange={(e) => setPriceMax(e.target.value)}
-                  className={filterInput}
-                  placeholder="∞"
-                />
-              </div>
+          <div className="bg-white p-4 border rounded">
+            <p className={filterTitle}>💰 Price</p>
+            <div className="flex gap-2">
+              <input
+                type="number"
+                value={priceMin}
+                onChange={(e) => setPriceMin(e.target.value)}
+                className={filterInput}
+                placeholder="Min"
+              />
+              <input
+                type="number"
+                value={priceMax}
+                onChange={(e) => setPriceMax(e.target.value)}
+                className={filterInput}
+                placeholder="Max"
+              />
             </div>
           </div>
 
-          {/* Clear Filters Button */}
           <button
             onClick={() => {
               setCategory("")
@@ -240,113 +267,38 @@ function Products() {
             }}
             className={filterButton}
           >
-            🗑️ Clear All Filters
+            Clear Filters
           </button>
 
         </aside>
 
-        {/* MAIN CONTENT */}
-
-        <main className="flex-1 bg-white rounded-lg p-4 sm:p-6 lg:p-8 shadow-sm">
-
-          {/* OFFERS SECTION */}
-
-          <div className="bg-[#f9f9f9] rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-100">
-
-            <h2 className="text-lg sm:text-xl font-bold text-[#131921] mb-4">
-              🎉 Special Offers
-            </h2>
-
-            <div className="flex gap-4 overflow-x-auto">
-
-              {products.slice(0, 5).map((product, index) => (
-
-                <div
-                  key={index}
-                  onClick={() => gotoProduct(product)}
-                  className="shrink-0 w-48 bg-gray-100 p-3 rounded cursor-pointer hover:shadow"
-                >
-
-                  <span className="text-xs bg-orange-100 text-orange-500 px-2 py-1 rounded-full">
-                    🔥 Deal
-                  </span>
-
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-20 h-20 object-contain mx-auto my-2"
-                  />
-
-                  <h3 className="text-sm text-center font-semibold">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-center text-orange-500 font-bold">
-                    ${product.price}
-                  </p>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </div>
-
-          {/* PRODUCTS GRID */}
+        {/* PRODUCTS */}
+        <main className="w-full min-w-0 bg-white rounded-lg p-4 sm:p-6 shadow-sm">
 
           {filteredProducts.length === 0 ? (
-
             <div className={emptyStateClass}>
-
-              <p className="text-lg font-semibold">
-                No products match your search
-              </p>
-
-              <p>
-                Try clearing filters or search again
-              </p>
-
+              No products found
             </div>
-
           ) : (
-
-            <div className={productGrid + " mt-6 sm:mt-8"}>
-
+            <div className={productGrid}>
               {filteredProducts.map((product, index) => (
-
                 <div
                   key={index}
                   onClick={() => gotoProduct(product)}
                   className={productCardClass}
                 >
-
-                  {product.stock <= 5 && (
-                    <span className="text-xs bg-gray-200 px-2 py-1 rounded">
-                      Low Stock
-                    </span>
-                  )}
-
                   <img
                     src={product.image}
                     alt={product.name}
                     className={productImage}
                   />
-
-                  <h2 className={productName + " text-center"}>
-                    {product.name}
-                  </h2>
-
+                  <h2 className={productName}>{product.name}</h2>
                   <p className="text-center font-semibold">
                     ${product.price}
                   </p>
-
                 </div>
-
               ))}
-
             </div>
-
           )}
 
         </main>
@@ -354,9 +306,7 @@ function Products() {
       </div>
 
     </div>
-
   )
 }
 
 export default Products
-

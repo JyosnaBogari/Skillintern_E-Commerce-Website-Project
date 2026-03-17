@@ -3,6 +3,7 @@ import RootLayout from "./components/RootLayout"
 import Products from './components/Products'
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart'
+import Wishlist from './components/Wishlist'
 import SignUp from "./components/SignUp";
 import SignIn from './components/SignIn';
 import UserProfile from './components/UserProfile'
@@ -30,8 +31,12 @@ function App() {
           element:<Products/>
         },
         {
-          path:"productcard",
+          path:"product/:productId",
           element:<ProductCard/>
+        },
+        {
+          path:"wishlist",
+          element:<Wishlist/>
         },
         {
           path:"cart",

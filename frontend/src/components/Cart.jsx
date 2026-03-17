@@ -12,6 +12,7 @@ import {
 } from "../styles/common";
 
 import { useNavigate } from "react-router";
+import { useAuth } from "../store/authStore";
 
 function Cart() {
 
@@ -43,6 +44,8 @@ function Cart() {
   }, []);
 
 
+  const refreshCart = useAuth(state => state.refreshCart)
+
   async function removeFromCart(pid) {
     try {
 
@@ -52,6 +55,7 @@ function Cart() {
       );
 
       setProducts(products.filter(items => items.product._id !== pid));
+      refreshCart();
 
     } catch (err) {
       setError(err.response?.data?.error);

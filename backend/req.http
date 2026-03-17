@@ -1,0 +1,124 @@
+//user Register
+POST http://localhost:3000/user-api/users
+Content-Type: application/json
+
+{
+    "firstName":"Hetwika",
+    "lastName":"Royya",
+    "email":"HetwikaRoyya@123",
+    "password":"Hetwika@123"
+}
+
+### user login
+POST http://localhost:3000/common-api/authenticate
+Content-Type: application/json
+
+{
+    "email":"HetwikaRoyya@123",
+    "password":"Hetwika@1234"
+}
+### admin login
+POST http://localhost:3000/common-api/authenticate
+Content-Type: application/json
+
+{
+    "email":"Chandubogari@123",
+    "password":"chandu@123"
+}
+
+### user logout 
+GET http://localhost:3000/common-api/logout
+
+### change password of user
+PUT http://localhost:3000/common-api/change-password
+Content-Type: application/json
+
+{
+    "email":"HetwikaRoyya@123",
+    "password":"Hetwika@123",
+    "newpassword":"Hetwika@1234"
+}
+
+### admin block user
+PUT http://localhost:3000/admin-api/blockuser
+Content-Type: application/json
+
+{
+   "userId":"69a58e5df8bddab8eebcf13a"
+}
+### admin unblock user
+PUT http://localhost:3000/admin-api/unblockuser
+Content-Type: application/json
+
+{
+ "userId":"69a58e5df8bddab8eebcf13a"
+}
+
+### user cart add
+PUT http://localhost:3000/user-api/user-cart/69b56e95e623b4af72ed2308
+
+### Products [only admin can add the products]
+POST http://localhost:3000/product-api/products
+Content-Type: application/json
+
+{
+  "name": "DANVOUY Womens T Shirt Casual Cotton Short",
+  "description": "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
+  "price": 12.99,
+  "stock": 1,
+  "image": "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_t.png",
+  "category": "women's clothing",
+  "brand": "DANVOUY",
+  "isActive": true
+}
+
+### get all products
+GET http://localhost:3000/product-api/products
+
+### get only one product
+GET http://localhost:3000/product-api/product-id/69a598ff96360ffe8ebab24a
+
+### update the product
+PUT http://localhost:3000/product-api/update-product/69a598ff96360ffe8ebab24a
+Content-Type: application/json
+
+{
+    "description": "Eco-friendly cotton t-shirt, breathable and comfortable. -- Eco-friendly cotton t-shirt, breathable and comfortable",
+    "stock":99
+}
+
+### delete the product
+DELETE http://localhost:3000/admin-api/product-id/69a598ff96360ffe8ebab24a
+
+### filter by category
+GET http://localhost:3000/product-api/filter-category/Electronics
+
+
+### read user by id
+GET http://localhost:3000/user-api/users/69a58e5df8bddab8eebcf13a
+
+
+### update the user
+PUT http://localhost:3000/user-api/update-user/69a58e5df8bddab8eebcf13a
+Content-Type: application/json
+
+{
+    "email":"Jyosnabogari1@gmail.com"
+}
+
+### read all users [only admin can view]
+GET http://localhost:3000/user-api/users
+
+
+### place order
+POST http://localhost:3000/order-api/place-order
+
+### get all products which are ordered[only admin]
+GET http://localhost:3000/admin-api/orders
+
+### view cart
+GET http://localhost:3000/user-api/user-cart 
+
+
+### remove product from cart 
+DELETE  http://localhost:3000/user-api/remove-cart/69b56e95e623b4af72ed2308

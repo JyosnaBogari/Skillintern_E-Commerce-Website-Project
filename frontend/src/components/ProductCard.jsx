@@ -55,7 +55,7 @@ function ProductCard() {
   const gotoCart = async (productObj) => {
     try {
       let res = await axios.put(
-        `http://localhost:3000/user-api/user-cart/${productObj._id}`,
+        `https://skillintern-e-commerce-website.onrender.com/user-api/user-cart/${productObj._id}`,
         {},
         { withCredentials: true }
       )

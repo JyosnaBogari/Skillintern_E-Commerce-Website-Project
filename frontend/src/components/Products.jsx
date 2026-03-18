@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react" // React hooks for lifecycle and state
 import {
   loadingClass,
   productCardClass,
@@ -11,13 +11,15 @@ import {
   filterInput,
   filterButton,
   errorClass
-} from "../styles/common"
+} from "../styles/common" // Reusable CSS classes
 
-import axios from "axios"
-import { useNavigate, useLocation } from "react-router"
+import axios from "axios" // For API requests
+import { useNavigate, useLocation } from "react-router" // Routing hooks
 
 function Products() {
 
+  //  HERO IMAGES
+  // Banner images with text and CTA
   const heroImages = [
     {
       src: "https://images.meesho.com/images/marketing/1744698265981.webp",
@@ -41,44 +43,53 @@ function Products() {
     },
   ];
 
-  const [heroIndex, setHeroIndex] = useState(0);
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [wishlistCount, setWishlistCount] = useState(0)
+  // STATE
+  const [heroIndex, setHeroIndex] = useState(0) // Current hero image index
+  const [products, setProducts] = useState([]) // All products
+  const [loading, setLoading] = useState(false) // Loading state
+  const [error, setError] = useState(null) // Error state
+  const [wishlistCount, setWishlistCount] = useState(0) // Wishlist count
 
+  // WISHLIST COUNT 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("wishlist")) || []
-    setWishlistCount(stored.length)
+    setWishlistCount(stored.length) // Set count from localStorage
   }, [])
 
+  // HERO AUTO SLIDE 
   useEffect(() => {
     const interval = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroImages.length)
+      setHeroIndex((prev) => (prev + 1) % heroImages.length) // Loop images
     }, 7000)
-    return () => clearInterval(interval)
+    return () => clearInterval(interval) // Cleanup
   }, [])
 
+  //  ROUTING 
   const location = useLocation()
   const navigate = useNavigate()
 
+  //  SEARCH PARAM
   const queryParams = new URLSearchParams(location.search)
-  const initialSearch = queryParams.get("q") || ""
+  const initialSearch = queryParams.get("q") || "" // Get search query from URL
 
+  //  FILTER STATES 
   const [searchTerm, setSearchTerm] = useState(initialSearch)
   const [category, setCategory] = useState("")
   const [brand, setBrand] = useState("")
   const [priceMin, setPriceMin] = useState("")
   const [priceMax, setPriceMax] = useState("")
 
+  //  NAVIGATE TO PRODUCT 
   const gotoProduct = (productObj) => {
     navigate(`/product/${productObj._id}`)
   }
 
+  // UPDATE SEARCH 
   useEffect(() => {
     setSearchTerm(initialSearch)
   }, [initialSearch])
 
+  //  FETCH PRODUCTS 
   const fetchProducts = async () => {
     try {
       setLoading(true)
@@ -89,19 +100,21 @@ function Products() {
         { withCredentials: true }
       )
 
-      setProducts(res.data.payload)
+      setProducts(res.data.payload) // Save products
 
     } catch (err) {
-      setError(err)
+      setError(err) // Save error
     } finally {
-      setLoading(false)
+      setLoading(false) // Stop loading
     }
   }
 
+  // INITIAL LOAD 
   useEffect(() => {
     fetchProducts()
   }, [])
 
+  //  LOADING UI
   if (loading) {
     return (
       <div className={pageWrapper}>
@@ -110,6 +123,7 @@ function Products() {
     )
   }
 
+  // ERROR UI 
   if (error) {
     return (
       <div className={pageWrapper}>
@@ -117,6 +131,7 @@ function Products() {
           <p className="font-semibold">Something went wrong</p>
           <p>{error.message}</p>
 
+          {/* Retry button */}
           <button
             onClick={fetchProducts}
             className="mt-4 bg-[#ff9900] px-4 py-2 rounded-lg"
@@ -128,12 +143,15 @@ function Products() {
     )
   }
 
+  // UNIQUE FILTER VALUES 
   const categories = [...new Set(products.map(p => p.category))]
   const brands = [...new Set(products.map(p => p.brand))]
 
+  //  PRICE CONVERSION 
   const priceMinValue = priceMin ? parseFloat(priceMin) : 0
   const priceMaxValue = priceMax ? parseFloat(priceMax) : Infinity
 
+  //  FILTER LOGIC 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -154,11 +172,11 @@ function Products() {
     )
   })
 
+  //   UI
   return (
-
     <div className={pageWrapper}>
 
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section className="relative w-full overflow-hidden shadow-lg mb-6">
         <img
           src={heroImages[heroIndex].src}
@@ -166,6 +184,7 @@ function Products() {
           className="w-full h-48 sm:h-64 md:h-80 lg:h-105 object-center"
         />
 
+        {/* Overlay content */}
         <div className="absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-center px-4">
           <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4">
             {heroImages[heroIndex].alt}
@@ -180,7 +199,7 @@ function Products() {
         </div>
       </section>
 
-      {/* WISHLIST */}
+      {/* WISHLIST BUTTON */}
       <div className="flex justify-end mb-4">
         <div
           onClick={() => navigate("/wishlist")}
@@ -193,12 +212,13 @@ function Products() {
         </div>
       </div>
 
-      {/* MAIN LAYOUT (NO OVERLAP) */}
+      {/* MAIN GRID LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 w-full">
 
-        {/* SIDEBAR (NO FIXED/ABSOLUTE) */}
+        {/* SIDEBAR FILTERS */}
         <aside className="w-full lg:w-75 lg:sticky lg:top-20 self-start flex flex-col gap-4">
 
+          {/* Search filter */}
           <div className="bg-white p-4 border rounded">
             <p className={filterTitle}>🔍 Search</p>
             <input
@@ -209,6 +229,7 @@ function Products() {
             />
           </div>
 
+          {/* Category filter */}
           <div className="bg-white p-4 border rounded">
             <p className={filterTitle}>📂 Category</p>
             <select
@@ -223,6 +244,7 @@ function Products() {
             </select>
           </div>
 
+          {/* Brand filter */}
           <div className="bg-white p-4 border rounded">
             <p className={filterTitle}>🏷️ Brand</p>
             <select
@@ -237,6 +259,7 @@ function Products() {
             </select>
           </div>
 
+          {/* Price filter */}
           <div className="bg-white p-4 border rounded">
             <p className={filterTitle}>💰 Price</p>
             <div className="flex gap-2">
@@ -257,6 +280,7 @@ function Products() {
             </div>
           </div>
 
+          {/* Clear filters */}
           <button
             onClick={() => {
               setCategory("")
@@ -272,14 +296,16 @@ function Products() {
 
         </aside>
 
-        {/* PRODUCTS */}
+        {/* PRODUCTS SECTION */}
         <main className="w-full min-w-0 bg-white rounded-lg p-4 sm:p-6 shadow-sm">
 
+          {/* Empty state */}
           {filteredProducts.length === 0 ? (
             <div className={emptyStateClass}>
               No products found
             </div>
           ) : (
+            // Product grid
             <div className={productGrid}>
               {filteredProducts.map((product, index) => (
                 <div

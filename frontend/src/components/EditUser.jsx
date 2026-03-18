@@ -1,6 +1,7 @@
-import { useForm } from "react-hook-form"
-import axios from "axios"
-import { useAuth } from "../store/authStore"
+import { useForm } from "react-hook-form" // Form management library
+import axios from "axios" // HTTP client for API calls
+import { useAuth } from "../store/authStore" // Global auth store to access current user
+import { toast } from "react-hot-toast" // Toast notifications
 
 import {
   formCard,
@@ -8,69 +9,83 @@ import {
   formGroup,
   inputClass,
   submitBtn
-} from "../styles/common"
+} from "../styles/common" // Reusable styling classes
 
 function EditUser() {
 
- const {register,handleSubmit} = useForm()
+  // Initialize form handling
+  const { register, handleSubmit } = useForm()
 
- const currentUser = useAuth(state=>state.currentUser)
+  // Get currently logged-in user from global state
+  const currentUser = useAuth(state => state.currentUser)
 
- const updateUser = async(data)=>{
+  // ================== UPDATE USER HANDLER ==================
 
-   await axios.put(
-     `http://localhost:3000/user-api/update-user/${currentUser._id}`,
-     data,
-     {withCredentials:true}
-   )
+  const updateUser = async (data) => {
+    try {
+      // API call to update user details using user ID
+      await axios.put(
+        `http://localhost:3000/user-api/update-user/${currentUser._id}`,
+        data,
+        { withCredentials: true } // Include authentication cookies
+      )
 
- }
+      toast.success("Profile updated successfully!") // Success feedback
 
- return(
+    } catch (err) {
+      console.error(err) // Log error for debugging
+      toast.error("Failed to update profile.") // Error feedback
+    }
+  }
 
-  <div className="py-16">
+  return (
+    <div className="py-16">
 
-  <form onSubmit={handleSubmit(updateUser)} className={formCard}>
+      {/* Profile Edit Form */}
+      <form onSubmit={handleSubmit(updateUser)} className={formCard}>
 
-    <h1 className={formTitle}>Edit Profile</h1>
+        {/* Form Title */}
+        <h1 className={formTitle}>Edit Profile</h1>
 
-    <div className={formGroup}>
-      <input
-        type="text"
-        placeholder="First Name"
-        className={inputClass}
-        {...register("firstName")}
-      />
+        {/* First Name Input */}
+        <div className={formGroup}>
+          <input
+            type="text"
+            placeholder="First Name"
+            className={inputClass}
+            {...register("firstName")} // Register field
+          />
+        </div>
+
+        {/* Last Name Input */}
+        <div className={formGroup}>
+          <input
+            type="text"
+            placeholder="Last Name"
+            className={inputClass}
+            {...register("lastName")}
+          />
+        </div>
+
+        {/* Email Input */}
+        <div className={formGroup}>
+          <input
+            type="email"
+            placeholder="Email"
+            className={inputClass}
+            {...register("email")}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <button type="submit" className={submitBtn}>
+          Update
+        </button>
+
+      </form>
     </div>
-
-    <div className={formGroup}>
-      <input
-        type="text"
-        placeholder="Last Name"
-        className={inputClass}
-        {...register("lastName")}
-      />
-    </div>
-
-    <div className={formGroup}>
-      <input
-        type="email"
-        placeholder="Email"
-        className={inputClass}
-        {...register("email")}
-      />
-    </div>
-
-    <button type="submit" className={submitBtn}>
-      Update
-    </button>
-
-  </form>
-
-  </div>
-
- )
-
+  )
 }
 
+// Export component
 export default EditUser

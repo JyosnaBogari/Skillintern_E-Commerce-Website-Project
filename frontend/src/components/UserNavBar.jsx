@@ -28,6 +28,7 @@ function UserNavBar() {
   const logout = useAuth(state => state.logout)
   const cartCount = useAuth(state => state.cartCount)
   const refreshCart = useAuth(state => state.refreshCart)
+  // navigation
   const navigate = useNavigate()
 
   const [open, setOpen] = useState(false)
@@ -36,7 +37,7 @@ function UserNavBar() {
 
   useEffect(() => {
     refreshCart()
-
+    //wishlist update
     const updateWishlist = () => {
       const stored = JSON.parse(localStorage.getItem('wishlist')) || []
       setWishlistCount(stored.length)
@@ -48,11 +49,13 @@ function UserNavBar() {
 
   }, [refreshCart])
 
+  // SignOut function calling
   const SignOut = async () => {
     await logout()
     toast.success("Logged Out Successfully")
     navigate('/signin')
     setOpen(false)
+    //mobile  responsiveness
     setIsMenuOpen(false)
   }
 

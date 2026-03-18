@@ -20,11 +20,11 @@ function ProductCard() {
   const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState(null)
 
-  const { productId } = useParams()
+  const { productId } = useParams() // get product id from URL
   const navigate = useNavigate();
   const refreshCart = useAuth(state => state.refreshCart)
 
-  // ✅ FETCH PRODUCT
+  // fetch product details from API
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true)
@@ -45,13 +45,13 @@ function ProductCard() {
     }
   }, [productId])
 
-  // ✅ FIX: MOVE THIS UP (before any return)
+  // load wishlist from localStorage
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("wishlist")) || []
     setWishlist(stored)
   }, [])
 
-  // ✅ FUNCTIONS
+  // add product to cart (API call)
   const gotoCart = async (productObj) => {
     try {
       let res = await axios.put(
@@ -62,10 +62,11 @@ function ProductCard() {
 
       if (res.status === 200) {
         toast.success("Product Added to Cart Successfully")
-        await refreshCart()
+        await refreshCart() // update cart count globally
       }
 
     } catch (err) {
+      // handle auth errors
       if (err.response?.status === 403 || err.response?.status === 401) {
         setError(err.response?.status)
         toast.error("Please login first")
@@ -75,9 +76,11 @@ function ProductCard() {
     }
   }
 
+  // add product to wishlist (localStorage)
   const addToWishlist = (productObj) => {
     let updatedWishlist = [...wishlist]
 
+    // check if already exists
     const alreadyExists = updatedWishlist.find(
       p => p._id === productObj._id
     )
@@ -91,21 +94,22 @@ function ProductCard() {
 
     setWishlist(updatedWishlist)
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist))
-    window.dispatchEvent(new Event('wishlistUpdated'))
+    window.dispatchEvent(new Event('wishlistUpdated')) // notify other components
 
     toast.success("Added to Wishlist ❤️")
   }
 
-  // ✅ RETURNS (SAFE NOW)
-
+  // loading state UI
   if (loading) {
     return <p className={bodyText}>Loading product...</p>
   }
 
+  // error UI
   if (error && typeof error === "string") {
     return <p className={bodyText}>{error}</p>
   }
 
+  // no product found
   if (!product) {
     return <p className={bodyText}>Product not found</p>
   }
@@ -115,6 +119,7 @@ function ProductCard() {
 
       <div className={cardClass + " text-center flex flex-col items-center gap-4"}>
 
+        {/* show login button if unauthorized */}
         {(error === 403 || error === 401) && (
           <button
             onClick={() => navigate('/signin')}
@@ -134,6 +139,7 @@ function ProductCard() {
 
         <p className={headingClass}>${product?.price}</p>
 
+        {/* stock availability */}
         <p className={bodyText}>
           {product?.stock > 0
             ? `In Stock ${product?.stock}`
@@ -142,7 +148,7 @@ function ProductCard() {
 
         <button
           className={primaryBtn}
-          disabled={product?.stock === 0}
+          disabled={product?.stock === 0} // disable if out of stock
           onClick={() => gotoCart(product)}
         >
           Add To Cart

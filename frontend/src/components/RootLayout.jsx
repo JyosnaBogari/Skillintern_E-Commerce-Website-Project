@@ -8,7 +8,8 @@ function RootLayout() {
     <div className={pageBackground}>
       <Header />
       <div className="mx-20 min-h-screen">
-        <Outlet />
+        {/* placeholder  */}
+        <Outlet /> 
       </div>
       <Footer />
     </div>

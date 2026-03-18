@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -22,6 +21,7 @@ function Orders() {
 
  const navigate = useNavigate()
 
+ // fetch all orders (admin only)
  useEffect(() => {
 
   async function getOrders() {
@@ -35,11 +35,11 @@ function Orders() {
      { withCredentials: true }
     )
 
-    setOrders(res.data.payload)
+    setOrders(res.data.payload) // store orders
 
    } catch (err) {
 
-    setError(err.response?.status)
+    setError(err.response?.status) // store error status
 
    } finally {
 
@@ -53,6 +53,7 @@ function Orders() {
 
  }, [])
 
+ // loading UI
  if (loading === true) {
   return <p className={loadingClass}>Loading...</p>
  }
@@ -63,6 +64,7 @@ function Orders() {
 
    <h1 className={adminHeader}>Orders</h1>
 
+   {/* show login if not admin */}
    {(error === 403 || error === 401) && (
     <button
      onClick={() => navigate("/signin")}
@@ -72,6 +74,7 @@ function Orders() {
     </button>
    )}
 
+   {/* empty state */}
    {orders.length === 0 ? (
 
     <div className={errorClass + " text-center"}>
@@ -88,16 +91,19 @@ function Orders() {
 
        <div className="flex justify-between items-start mb-4">
 
+        {/* order id */}
         <h2 className={headingClass}>
          Order #{order._id.slice(-8).toUpperCase()}
         </h2>
 
+        {/* order status */}
         <span className="text-sm font-semibold bg-[#ff9900]/10 text-[#ff9900] px-3 py-1 rounded-full">
          Pending
         </span>
 
        </div>
 
+       {/* customer details */}
        <p className={bodyText + " mb-2"}>
         <strong>Customer:</strong>{" "}
         {order.user?.firstName} {order.user?.lastName}
@@ -107,6 +113,7 @@ function Orders() {
         <strong>Email:</strong> {order.user?.email}
        </p>
 
+       {/* ordered items */}
        <div className="my-4 p-4 bg-[#f5f5f7] rounded-lg">
 
         <h3 className={headingClass + " text-base mb-3"}>
@@ -140,11 +147,10 @@ function Orders() {
 
        <div className="flex justify-between items-end">
 
+        {/* total amount */}
         <p className={headingClass + " text-lg"}>
          Total: ₹{order.totalAmount}
         </p>
-
-       
 
        </div>
 
@@ -163,4 +169,3 @@ function Orders() {
 }
 
 export default Orders
-

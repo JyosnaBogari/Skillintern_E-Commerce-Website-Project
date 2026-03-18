@@ -6,14 +6,20 @@ import {
   footerSocialLink,
   footerBadge,
   footerButton
-} from "../styles/common";
+} from "../styles/common"; // reusable footer styles
 
 function Footer() {
   return (
     <footer className={footerWrapper}>
+
+      {/* main footer container */}
       <div className={footerContainer}>
+
+        {/* SOCIAL LINKS */}
         <div className="space-y-3">
           <h2 className={footerHeading}>Connect With Us</h2>
+
+          {/* Instagram link */}
           <a
             href="https://www.instagram.com"
             target="_blank"
@@ -21,12 +27,15 @@ function Footer() {
             className={footerSocialLink}
           >
             <span className="w-5 h-5">
+              {/* icon */}
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm9.75 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-4.25 1.25a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
               </svg>
             </span>
             Instagram
           </a>
+
+          {/* Facebook link */}
           <a
             href="https://www.facebook.com"
             target="_blank"
@@ -40,6 +49,8 @@ function Footer() {
             </span>
             Facebook
           </a>
+
+          {/* Twitter link */}
           <a
             href="https://twitter.com"
             target="_blank"
@@ -55,22 +66,18 @@ function Footer() {
           </a>
         </div>
 
+        {/* POLICIES */}
         <div className="space-y-3">
           <h2 className={footerHeading}>Customer Policies</h2>
-          <a href="#" className={footerLink}>
-            Privacy Policy
-          </a>
-          <a href="#" className={footerLink}>
-            Return Policy
-          </a>
-          <a href="#" className={footerLink}>
-            Terms &amp; Conditions
-          </a>
-          <a href="#" className={footerLink}>
-            Shipping Policy
-          </a>
+
+          {/* policy links */}
+          <a href="#" className={footerLink}>Privacy Policy</a>
+          <a href="#" className={footerLink}>Return Policy</a>
+          <a href="#" className={footerLink}>Terms &amp; Conditions</a>
+          <a href="#" className={footerLink}>Shipping Policy</a>
         </div>
 
+        {/* APP DOWNLOAD */}
         <div className="space-y-4">
           <div>
             <h2 className={footerHeading}>Get the App</h2>
@@ -79,7 +86,10 @@ function Footer() {
             </p>
           </div>
 
+          {/* app buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
+
+            {/* Google Play */}
             <a
               href="#"
               className={footerButton}
@@ -96,6 +106,7 @@ function Footer() {
               Google Play
             </a>
 
+            {/* App Store */}
             <a
               href="#"
               className={footerButton}
@@ -108,13 +119,16 @@ function Footer() {
               </span>
               App Store
             </a>
+
           </div>
 
+          {/* security badge */}
           <div className={footerBadge}>
             <span className="w-2 h-2 rounded-full bg-[#34c759]" />
             Shop securely with trusted checkout
           </div>
         </div>
+
       </div>
     </footer>
   )

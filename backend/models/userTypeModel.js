@@ -20,11 +20,17 @@ export const userSchema=new Schema({
     lastName:{
            type:String,
     },
-    email:{
-        type:String,
-        required:[true,"Email is required"],
-        unique:[true,"email already exists"]
-    },
+   email: {
+  type: String,
+  required: [true, "Email is required"],
+  unique: [true, "Email already exists"],
+  trim: true, // removes whitespace
+  lowercase: true, // always store in lowercase
+  match: [
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+    "Please enter a valid email address"
+  ]
+},
     password:{
         type:String,
         required:[true,"Password is required"],  

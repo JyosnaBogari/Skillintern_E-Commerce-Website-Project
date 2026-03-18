@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form"
-import axios from "axios"
+import { useForm } from "react-hook-form" // Form handling with validation support
+import axios from "axios" // HTTP client for API requests
+import { toast } from "react-hot-toast" // Toast notifications
 
 import {
   formCard,
@@ -7,61 +8,80 @@ import {
   formGroup,
   inputClass,
   submitBtn
-} from "../styles/common"
+} from "../styles/common" // Reusable styling classes
 
-function ChangePassword(){
+function ChangePassword() {
 
- const {register,handleSubmit} = useForm()
+  // Initialize react-hook-form with reset support
+  const { register, handleSubmit, reset } = useForm()
 
- const changePass = async(data)=>{
-   await axios.put(
-     'http://localhost:3000/common-api/change-password',
-     data ,{withCredentials:true}
-   )
- }
+  // ================== CHANGE PASSWORD HANDLER ==================
 
- return(
+  const changePass = async (data) => {
+    try {
+      // API call to update password
+      await axios.put(
+        "http://localhost:3000/common-api/change-password",
+        data,
+        { withCredentials: true } // Include authentication cookies
+      )
 
-  <div className="py-16">
+      toast.success("Password changed successfully!") // Show success feedback
 
-  <form onSubmit={handleSubmit(changePass)} className={formCard}>
+      reset() // Clear form fields after successful submission
 
-   <h1 className={formTitle}>Change Password</h1>
+    } catch (err) {
+      console.error(err) // Log error for debugging
+      toast.error("Failed to change password.") // Show error feedback
+    }
+  }
 
-   <div className={formGroup}>
-    <input
-     placeholder="Email"
-     className={inputClass}
-     {...register("email")}
-    />
-   </div>
+  return (
+    <div className="py-16">
 
-   <div className={formGroup}>
-    <input
-     type="password"
-     placeholder="Old Password"
-     className={inputClass}
-     {...register("password")}
-    />
-   </div>
+      {/* Form container */}
+      <form onSubmit={handleSubmit(changePass)} className={formCard}>
 
-   <div className={formGroup}>
-    <input
-     type="password"
-     placeholder="New Password"
-     className={inputClass}
-     {...register("newpassword")}
-    />
-   </div>
+        {/* Form title */}
+        <h1 className={formTitle}>Change Password</h1>
 
-   <button type="submit" className={submitBtn}>
-     Change Password
-   </button>
+        {/* Email input */}
+        <div className={formGroup}>
+          <input
+            placeholder="Email"
+            className={inputClass}
+            {...register("email")} // Register field with react-hook-form
+          />
+        </div>
 
-  </form>
+        {/* Old password input */}
+        <div className={formGroup}>
+          <input
+            type="password"
+            placeholder="Old Password"
+            className={inputClass}
+            {...register("password")}
+          />
+        </div>
 
-  </div>
- )
+        {/* New password input */}
+        <div className={formGroup}>
+          <input
+            type="password"
+            placeholder="New Password"
+            className={inputClass}
+            {...register("newpassword")}
+          />
+        </div>
+
+        {/* Submit button */}
+        <button type="submit" className={submitBtn}>
+          Change Password
+        </button>
+
+      </form>
+    </div>
+  )
 }
 
 export default ChangePassword

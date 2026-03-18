@@ -1,12 +1,114 @@
-# React + Vite
+# 🛒 E-Commerce Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack E-commerce web application with user authentication, product management, cart functionality, and admin dashboard.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+### 👤 User Features
+- User Registration & Login (JWT Authentication)
+- Browse Products
+- Search Products (Frontend)
+- Add to Cart
+- Place Orders (COD & Online Payment)
+- View Orders
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🛠️ Admin Features
+- Admin Dashboard
+- Add / Update / Delete Products
+- View Users
+- Manage Orders
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+- React.js
+- React Router
+- Axios
+- Tailwind CSS
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+
+### Payment
+- Razorpay Integration
+
+---
+
+## 📁 Project Structure
+E-commerce-project/
+│
+├── backend/
+│ ├── APIs/
+│ ├── models/
+│ ├── middleware/
+│ └── server.js
+│
+├── frontend/
+│ ├── components/
+│ ├── styles/common.js
+│ ├── store/authStore.js
+│ └── App.jsx
+│
+└── README.md
+
+
+
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone Repository
+```bash
+git clone 
+cd E-CommerceProject
+
+### backend
+cd backend
+npm install
+Run Backend: node server.js
+
+### frontend
+cd frontend
+npm install
+npm run dev
+
+### Payment Integration
+Razorpay is used for online payments
+
+### Supports:
+UPI
+Cards
+Net Banking
+
+### 🔐 Security Features
+JWT Authentication
+Protected Routes
+Role-based Access (Admin/User)
+Secure API Calls (withCredentials)
+
+### 🚀 Deployment
+Frontend: Vercel
+Backend: Render
+Database: MongoDB Atlas
+
+### 📌 Future Improvements
+Product Search (Backend optimization)
+Filters (Price, Brand)
+Wishlist Feature
+Order Tracking
+Email Notifications
+
+###👩‍💻 Author
+Bogari Jyosna
+
+
+## 🧪 API Testing
+
+API endpoints were tested using REST Client (.http files) inside the backend folder.
+
+You can use tools like VS Code REST Client or Postman to test APIs.

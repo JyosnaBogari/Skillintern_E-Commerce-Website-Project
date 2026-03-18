@@ -19,8 +19,10 @@ import AddProduct from "./components/AddProduct";
 import AdminProducts from "./components/AdminProduct";
 import EditUser from "./components/EditUser";
 import ChangePassword from "./components/ChangePassword";
+import AdminOrders from "./components/AdminOrders"
 
 function App() {
+  // creating routerObj
    const routerObj=createBrowserRouter([
     {
       path:"/",
@@ -99,6 +101,10 @@ function App() {
           element:<ChangePassword/>
 
         },
+        {
+          path:"admin-orders",
+          element:<AdminOrders/>
+        }
       ]
     }
 

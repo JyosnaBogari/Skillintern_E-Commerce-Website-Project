@@ -18,23 +18,26 @@ import {
 
 function SignIn() {
 
-  const { register, handleSubmit, formState:{errors} } = useForm();
-
+  const { register, handleSubmit, formState:{errors} ,reset} = useForm();
   const error = useAuth(state=>state.error);
   const login = useAuth(state=>state.login);
   const isAuthenticated = useAuth(state=>state.isAuthenticated);
   const currentUser = useAuth(state=>state.currentUser);
-
+ // programmatic navigate
   const navigate = useNavigate();
-
+  // checking  user login  credentials
   const onUserLogin = async(userCredObj)=>{
     await login(userCredObj);
+    reset();
   }
-
+ 
+  // TO run only once :useEffect
   useEffect(()=>{
 
+    // checking user authentication
     if(isAuthenticated && currentUser){
 
+      // checking user role
       if(currentUser.role==="USER"){
         toast.success("Logged In successfully")
         navigate('/user-profile')
@@ -56,7 +59,7 @@ function SignIn() {
         onSubmit={handleSubmit(onUserLogin)}
         className={formCard}
       >
-
+        {/* SignIn form */}
         <h2 className={formTitle}>Sign In</h2>
 
         {error && <p className={errorClass}>{error}</p>}
@@ -68,7 +71,7 @@ function SignIn() {
 
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Admin@example.com"
             className={inputClass}
             {...register("email",{required:true})}
           />
@@ -88,7 +91,7 @@ function SignIn() {
 
           <input
             type="password"
-            placeholder="Enter password"
+            placeholder="Admin@123"
             className={inputClass}
             {...register("password",{required:true})}
           />

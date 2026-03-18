@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useState, useEffect } from "react"; // React hooks
+import axios from "axios"; // API calls
+import toast from "react-hot-toast"; // notifications
 
 import {
   errorClass,
@@ -10,16 +10,16 @@ import {
   headingClass,
   bodyText,
   primaryBtn
-} from "../styles/common";
+} from "../styles/common"; // reusable styles
 
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"; // navigation
 
 function PlaceOrder() {
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("COD");
-  const [payLoading, setPayLoading] = useState(false);
+  const [order, setOrder] = useState(null); // store order details
+  const [loading, setLoading] = useState(false); // loading state
+  const [error, setError] = useState(null); // error state
+  const [paymentMethod, setPaymentMethod] = useState("COD"); // selected payment method
+  const [payLoading, setPayLoading] = useState(false); // payment loading
 
   const navigate = useNavigate();
 
@@ -28,91 +28,112 @@ function PlaceOrder() {
     async function fetchOrder() {
       try {
         setLoading(true);
+        // make API request
         const res = await axios.post(
           "http://localhost:3000/order-api/place-order",
-          {},
-          { withCredentials: true }
+          {}, // no user object sending
+          { withCredentials: true } // send cookies/session
         );
-        setOrder(res.data.payload);
+        setOrder(res.data.payload); // store order data
       } catch (err) {
-        setError(err.response?.data?.error);
+        setError(err.response?.data?.error); // handle error
       } finally {
         setLoading(false);
       }
     }
-    fetchOrder();
+    fetchOrder(); // call function
   }, []);
 
-  // Handle payment via Razorpay
-  const handlePayment = async () => {
-    if (!order) return;
+  // handle Razorpay payment
+const handlePayment = async () => {
+  if (!order) return;
 
-    setPayLoading(true);
+  setPayLoading(true);
 
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/payment/create-order",
-        { amount: order.totalAmount },
-        { withCredentials: true }
-      );
+  try {
+    // create payment order
+    const res = await axios.post(
+      "http://localhost:3000/api/payment/create-order",
+      { amount: order.totalAmount },
+      { withCredentials: true }
+    );
 
-      const razorOrder = res.data;
+    const razorOrder = res.data;
 
-      const options = {
-        key: "YOUR_KEY_ID",
-        amount: razorOrder.amount,
-        currency: "INR",
-        name: "My E-Commerce App",
-        order_id: razorOrder.id,
-        description: "Order Payment",
-        prefill: { name: "User Name", email: "user@example.com" },
-        theme: { color: "#3399cc" },
-        handler: async function (response) {
-          try {
-            const verify = await axios.post(
-              "/api/payment/verify",
-              response,
+    const options = {
+      key: "YOUR_KEY_ID",
+      amount: razorOrder.amount,
+      currency: "INR",
+      name: "My E-Commerce App",
+      order_id: razorOrder.id,
+      description: "Order Payment",
+      prefill: { name: "User Name", email: "user@example.com" },
+      theme: { color: "#3399cc" },
+
+      // ✅ SUCCESS HANDLER
+      handler: async function (response) {
+        try {
+          const verify = await axios.post(
+            "/api/payment/verify",
+            response,
+            { withCredentials: true }
+          );
+
+          if (verify.data.success) {
+            await axios.post(
+              "http://localhost:3000/order-api/confirm-order",
+              {
+                orderId: order._id,
+                paymentId: response.razorpay_payment_id,
+                status: "paid",
+                paymentMethod
+              },
               { withCredentials: true }
             );
 
-            if (verify.data.success) {
-              await axios.post(
-                "http://localhost:3000/order-api/confirm-order",
-                {
-                  orderId: order._id,
-                  paymentId: response.razorpay_payment_id,
-                  status: "paid",
-                  paymentMethod
-                },
-                { withCredentials: true }
-              );
-              navigate("/order-success");
-            } else {
-              toast.error("Payment Failed! Please try again.");
-            }
-          } catch (err) {
-            toast.error("Error verifying payment.");
+            toast.success("Payment Successful ✅");
+            navigate("/order-success");
+          } else {
+            toast.error("Payment Failed! Please try again.");
           }
+        } catch (err) {
+          toast.error("Error verifying payment.");
         }
-      };
+      },
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      toast.error("Failed to initiate payment.");
-    } finally {
-      setPayLoading(false);
-    }
-  };
+      // ✅ HANDLE USER CLOSE / CANCEL
+      modal: {
+        ondismiss: function () {
+          toast.error("Payment cancelled ❌");
+        }
+      }
+    };
 
+    const rzp = new window.Razorpay(options);
+
+    // ✅ HANDLE PAYMENT FAILURE (IMPORTANT FIX)
+    rzp.on("payment.failed", function () {
+      toast.error("Payment Failed ❌");
+    });
+
+    rzp.open();
+
+  } catch (err) {
+    toast.error("Failed to initiate payment.");
+  } finally {
+    setPayLoading(false);
+  }
+};
+
+  // loading UI
   if (loading) return <p className={loadingClass}>Loading...</p>;
 
   return (
     <div className={pageWrapper + " flex justify-center px-3 sm:px-6"}>
       
-      {error && <p className={errorClass}>{error}</p>}
+      {error && <p className={errorClass}>{error}</p>} {/* show error */}
 
-      {/* RESPONSIVE CARD */}
+      {/* order summary card */}
       <div
         className={
           cardClass +
@@ -123,6 +144,7 @@ function PlaceOrder() {
           Your Order Summary
         </h1>
 
+        {/* show order details */}
         {order && (
           <>
             <p className={bodyText + " mt-3 text-base sm:text-lg"}>
@@ -134,7 +156,7 @@ function PlaceOrder() {
           </>
         )}
 
-        {/* PAYMENT SELECT */}
+        {/* payment selection */}
         <div className="my-5 text-left">
           <p className="font-semibold mb-2 text-sm sm:text-base">
             Select Payment Method
@@ -142,7 +164,7 @@ function PlaceOrder() {
 
           <select
             value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
+            onChange={(e) => setPaymentMethod(e.target.value)} // update method
             className="border border-gray-300 p-2 sm:p-3 rounded-md w-full text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="COD">Cash On Delivery</option>
@@ -151,10 +173,10 @@ function PlaceOrder() {
           </select>
         </div>
 
-        {/* BUTTONS */}
+        {/* buttons */}
         {paymentMethod !== "COD" ? (
           <button
-            onClick={handlePayment}
+            onClick={handlePayment} // trigger payment
             className={primaryBtn + " mt-4 w-full text-sm sm:text-base"}
             disabled={payLoading}
           >
@@ -162,7 +184,7 @@ function PlaceOrder() {
           </button>
         ) : (
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/")} // confirm COD order
             className={primaryBtn + " mt-4 w-full text-sm sm:text-base"}
           >
             Confirm Order

@@ -1,130 +1,124 @@
-//user Register
+### User Register
 POST http://localhost:3000/user-api/users
 Content-Type: application/json
 
 {
-    "firstName":"Hetwika",
-    "lastName":"Royya",
-    "email":"HetwikaRoyya@123",
-    "password":"Hetwika@123"
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "testuser@example.com",
+  "password": "Test@123"
 }
 
-### user login
+### User Login
 POST http://localhost:3000/common-api/authenticate
 Content-Type: application/json
 
 {
-    "email":"HetwikaRoyya@123",
-    "password":"Hetwika@123"
+  "email": "testuser@example.com",
+  "password": "Test@123"
 }
-### admin login
+
+### Admin Login
 POST http://localhost:3000/common-api/authenticate
 Content-Type: application/json
 
 {
-    "email":"Chandubogari@123",
-    "password":"chandu@123"
+  "email": "admin@example.com",
+  "password": "Admin@123"
 }
 
-### user logout 
+### Logout
 GET http://localhost:3000/common-api/logout
 
-### change password of user
+### Change Password
 PUT http://localhost:3000/common-api/change-password
 Content-Type: application/json
 
 {
-    "email":"HetwikaRoyya@123",
-    "password":"Hetwika@123",
-    "newpassword":"Hetwika@1234"
+  "email": "testuser@example.com",
+  "password": "Test@123",
+  "newpassword": "NewPass@123"
 }
 
-### admin block user
+### Block User
 PUT http://localhost:3000/admin-api/blockuser
 Content-Type: application/json
 
 {
-   "userId":"69a58e5df8bddab8eebcf13a"
+  "userId": "USER_ID_HERE"
 }
-### admin unblock user
+
+### Unblock User
 PUT http://localhost:3000/admin-api/unblockuser
 Content-Type: application/json
 
 {
- "userId":"69a58e5df8bddab8eebcf13a"
+  "userId": "USER_ID_HERE"
 }
 
-### user cart add
-PUT http://localhost:3000/user-api/user-cart/69b56e95e623b4af72ed2308
+### Add to Cart
+PUT http://localhost:3000/user-api/user-cart/PRODUCT_ID_HERE
 
-### Products [only admin can add the products]
+### Add Product (Admin)
 POST http://localhost:3000/product-api/products
 Content-Type: application/json
 
 {
-    "name": "Luxury Wrist Watch",
-    "description": "Stylish luxury wrist watch, perfect for formal and casual wear.",
-    "price": 59.99,
-    "stock": 12,
-    "image": "https://m.media-amazon.com/images/I/71vWd+zpefL._AC_SY200_.jpg",
-    "category": "watches",
-    "brand": "Amazon",
-    "isActive": true
-  }
+  "name": "Sample Product",
+  "description": "Sample description",
+  "price": 100,
+  "stock": 10,
+  "image": "https://via.placeholder.com/150",
+  "category": "electronics",
+  "brand": "sample brand",
+  "isActive": true
+}
 
-### get all products
+### Get All Products
 GET http://localhost:3000/product-api/products
 
-### get only one product
-GET http://localhost:3000/product-api/product-id/69a598ff96360ffe8ebab24a
+### Get Product by ID
+GET http://localhost:3000/product-api/product-id/PRODUCT_ID_HERE
 
-### update the product
-PUT http://localhost:3000/product-api/update-product/69a598ff96360ffe8ebab24a
+### Update Product
+PUT http://localhost:3000/product-api/update-product/PRODUCT_ID_HERE
 Content-Type: application/json
 
 {
-    "description": "Eco-friendly cotton t-shirt, breathable and comfortable. -- Eco-friendly cotton t-shirt, breathable and comfortable",
-    "stock":99
+  "stock": 50
 }
 
-### delete the product
-DELETE http://localhost:3000/admin-api/product-id/69a598ff96360ffe8ebab24a
+### Delete Product
+DELETE http://localhost:3000/admin-api/product-id/PRODUCT_ID_HERE
 
-### filter by category
-GET http://localhost:3000/product-api/filter-category/Electronics
+### Filter by Category
+GET http://localhost:3000/product-api/filter-category/electronics
 
+### Get User by ID
+GET http://localhost:3000/user-api/users/USER_ID_HERE
 
-### read user by id
-GET http://localhost:3000/user-api/users/69a58e5df8bddab8eebcf13a
-
-
-### update the user
-PUT http://localhost:3000/user-api/update-user/69a58e5df8bddab8eebcf13a
+### Update User
+PUT http://localhost:3000/user-api/update-user/USER_ID_HERE
 Content-Type: application/json
 
 {
-    "email":"Jyosnabogari1@gmail.com"
+  "email": "updated@example.com"
 }
 
-### read all users [only admin can view]
+### Get All Users
 GET http://localhost:3000/user-api/users
 
-
-### place order
+### Place Order
 POST http://localhost:3000/order-api/place-order
 
-### get all products which are ordered[only admin]
+### Admin Orders
 GET http://localhost:3000/admin-api/orders
 
-### view cart
-GET http://localhost:3000/user-api/user-cart 
+### View Cart
+GET http://localhost:3000/user-api/user-cart
 
+### Remove from Cart
+DELETE http://localhost:3000/user-api/remove-cart/PRODUCT_ID_HERE
 
-### remove product from cart 
-DELETE  http://localhost:3000/user-api/remove-cart/69b56e95e623b4af72ed2308
-
-
-
-### test razorpay
-
+### Razorpay Test
 GET http://localhost:3000/test-api/test-razorpay

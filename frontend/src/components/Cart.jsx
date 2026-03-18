@@ -70,7 +70,7 @@ function Cart() {
 
       // API call to remove item from cart
       await axios.delete(
-        `http://localhost:3000/user-api/remove-cart/${pid}`,
+        `https://skillintern-e-commerce-website.onrender.com/user-api/remove-cart/${pid}`,
         { withCredentials: true }
       );
 

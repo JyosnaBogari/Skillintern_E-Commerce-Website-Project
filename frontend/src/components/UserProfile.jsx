@@ -47,7 +47,7 @@ function UserProfile() {
 
         // API call to fetch all products
         let res = await axios.get(
-          'http://localhost:3000/product-api/products',
+          'https://skillintern-e-commerce-website.onrender.com/product-api/products',
           { withCredentials: true }
         )
 

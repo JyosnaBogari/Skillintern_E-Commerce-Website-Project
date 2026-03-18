@@ -30,7 +30,7 @@ function ProductCard() {
       setLoading(true)
       try {
         const res = await axios.get(
-          `http://localhost:3000/product-api/product-id/${productId}`
+          `https://skillintern-e-commerce-website.onrender.com/product-api/product-id/${productId}`
         )
         setProduct(res.data.payload)
       } catch (err) {

@@ -42,7 +42,7 @@ function SignUp() {
     try {
       // API call to register new user
       let resObj = await axios.post(
-        "http://localhost:3000/user-api/users",
+        "https://skillintern-e-commerce-website.onrender.com/user-api/users",
         newUser,
         { withCredentials: true } // Include cookies if needed
       )

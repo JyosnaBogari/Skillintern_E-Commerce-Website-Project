@@ -41,7 +41,7 @@ function AdminProducts() {
     // Function to fetch products from API
     async function getProducts() {
       let res = await axios.get(
-        "http://localhost:3000/product-api/products",
+        "https://skillintern-e-commerce-website.onrender.com/product-api/products",
         { withCredentials: true } // Include cookies for authentication
       )
 
@@ -60,7 +60,7 @@ function AdminProducts() {
     try {
       // API call to delete product by ID
       await axios.delete(
-        `http://localhost:3000/admin-api/product-id/${id}`,
+        `https://skillintern-e-commerce-website.onrender.com/admin-api/product-id/${id}`,
         { withCredentials: true }
       )
 

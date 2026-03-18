@@ -21,7 +21,7 @@ function ChangePassword() {
     try {
       // API call to update password
       await axios.put(
-        "http://localhost:3000/common-api/change-password",
+        "https://skillintern-e-commerce-website.onrender.com/common-api/change-password",
         data,
         { withCredentials: true } // Include authentication cookies
       )

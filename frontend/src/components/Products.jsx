@@ -96,7 +96,7 @@ function Products() {
       setError(null)
 
       let res = await axios.get(
-        "http://localhost:3000/product-api/products",
+        "https://skillintern-e-commerce-website.onrender.com/product-api/products",
         { withCredentials: true }
       )
 

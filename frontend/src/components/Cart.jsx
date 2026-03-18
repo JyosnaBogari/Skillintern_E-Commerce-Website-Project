@@ -39,7 +39,7 @@ function Cart() {
 
         // API call to fetch user's cart items
         let res = await axios.get(
-          'http://localhost:3000/user-api/user-cart',
+          'https://skillintern-e-commerce-website.onrender.com/user-api/user-cart',
           { withCredentials: true } // Include cookies for authentication
         );
 

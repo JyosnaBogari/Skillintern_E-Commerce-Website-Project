@@ -28,7 +28,7 @@ function AdminOrders() {
         setError(null)   // Reset any previous errors
 
         // API call to fetch all orders (admin route)
-        const res = await axios.get("http://localhost:3000/admin-api/orders", {
+        const res = await axios.get("https://skillintern-e-commerce-website.onrender.com/admin-api/orders", {
           withCredentials: true, // send cookies for authentication
         })
 

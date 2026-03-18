@@ -33,14 +33,14 @@ function AdminProfile() {
       try {
         // Fetch all products and calculate total count
         const prodRes = await axios.get(
-          "http://localhost:3000/product-api/products",
+          "https://skillintern-e-commerce-website.onrender.com/product-api/products",
           { withCredentials: true }
         )
         setTotalProducts(prodRes.data.payload.length)
 
         // Fetch all orders
         const orderRes = await axios.get(
-          "http://localhost:3000/admin-api/orders",
+          "https://skillintern-e-commerce-website.onrender.com/admin-api/orders",
           { withCredentials: true }
         )
 

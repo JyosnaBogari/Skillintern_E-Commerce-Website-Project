@@ -17,7 +17,7 @@ export const useAuth = create(
       // fetch cart items and calculate total quantity
       refreshCart: async () => {
         try {
-          const res = await axios.get('http://localhost:3000/user-api/user-cart', {
+          const res = await axios.get('https://skillintern-e-commerce-website.onrender.com/user-api/user-cart', {
             withCredentials: true, // send cookies/session
           });
 
@@ -43,7 +43,7 @@ export const useAuth = create(
 
           // send login request
           const res = await axios.post(
-            'http://localhost:3000/common-api/authenticate',
+            'https://skillintern-e-commerce-website.onrender.com/common-api/authenticate',
             userCredObj,
             { withCredentials: true }
           );
@@ -74,7 +74,7 @@ export const useAuth = create(
           set({ loading: true, error: null });
 
           // call logout API
-          await axios.get('http://localhost:3000/common-api/logout', {
+          await axios.get('https://skillintern-e-commerce-website.onrender.com/common-api/logout', {
             withCredentials: true,
           });
 

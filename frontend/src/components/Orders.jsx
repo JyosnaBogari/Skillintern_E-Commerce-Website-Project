@@ -31,7 +31,7 @@ function Orders() {
     setLoading(true)
 
     let res = await axios.get(
-     "http://localhost:3000/admin-api/orders",
+     "https://skillintern-e-commerce-website.onrender.com/admin-api/orders",
      { withCredentials: true }
     )
 

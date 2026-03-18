@@ -30,7 +30,7 @@ function PlaceOrder() {
         setLoading(true);
         // make API request
         const res = await axios.post(
-          "http://localhost:3000/order-api/place-order",
+          "https://skillintern-e-commerce-website.onrender.com/order-api/place-order",
           {}, // no user object sending
           { withCredentials: true } // send cookies/session
         );
@@ -53,7 +53,7 @@ const handlePayment = async () => {
   try {
     // create payment order
     const res = await axios.post(
-      "http://localhost:3000/api/payment/create-order",
+      "https://skillintern-e-commerce-website.onrender.com/api/payment/create-order",
       { amount: order.totalAmount },
       { withCredentials: true }
     );
@@ -81,7 +81,7 @@ const handlePayment = async () => {
 
           if (verify.data.success) {
             await axios.post(
-              "http://localhost:3000/order-api/confirm-order",
+              "https://skillintern-e-commerce-website.onrender.com/order-api/confirm-order",
               {
                 orderId: order._id,
                 paymentId: response.razorpay_payment_id,

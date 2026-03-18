@@ -25,7 +25,7 @@ function EditUser() {
     try {
       // API call to update user details using user ID
       await axios.put(
-        `http://localhost:3000/user-api/update-user/${currentUser._id}`,
+        `https://skillintern-e-commerce-website.onrender.com/user-api/update-user/${currentUser._id}`,
         data,
         { withCredentials: true } // Include authentication cookies
       )

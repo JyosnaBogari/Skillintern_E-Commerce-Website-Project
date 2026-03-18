@@ -41,7 +41,7 @@ function Users() {
 
     // API call to fetch all users
     let res = await axios.get(
-     "http://localhost:3000/user-api/users",
+     "https://skillintern-e-commerce-website.onrender.com/user-api/users",
      { withCredentials: true } // Include authentication cookies
     )
 
@@ -71,7 +71,7 @@ function Users() {
 
    // API call to block user
    await axios.put(
-    "http://localhost:3000/admin-api/blockuser",
+    "https://skillintern-e-commerce-website.onrender.com/admin-api/blockuser",
     { userId },
     { withCredentials: true }
    )
@@ -95,7 +95,7 @@ function Users() {
 
    // API call to unblock user
    await axios.put(
-    "http://localhost:3000/admin-api/unblockuser",
+    "https://skillintern-e-commerce-website.onrender.com/admin-api/unblockuser",
     { userId },
     { withCredentials: true }
    )

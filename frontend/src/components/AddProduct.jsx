@@ -31,7 +31,7 @@ function AddProduct() {
 
       // send POST request to backend to add product (admin only)
       await axios.post(
-        'http://localhost:3000/product-api/products',
+        'https://skillintern-e-commerce-website.onrender.com/product-api/products',
         newProduct,
         { withCredentials: true } // send cookies (JWT token) for authentication
       );

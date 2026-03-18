@@ -1,5 +1,5 @@
 ### User Register
-POST http://localhost:3000/user-api/users
+POST https://skillintern-e-commerce-website.onrender.com/user-api/users
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### User Login
-POST http://localhost:3000/common-api/authenticate
+POST https://skillintern-e-commerce-website.onrender.com/common-api/authenticate
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Admin Login
-POST http://localhost:3000/common-api/authenticate
+POST https://skillintern-e-commerce-website.onrender.com/common-api/authenticate
 Content-Type: application/json
 
 {
@@ -28,10 +28,10 @@ Content-Type: application/json
 }
 
 ### Logout
-GET http://localhost:3000/common-api/logout
+GET https://skillintern-e-commerce-website.onrender.com/common-api/logout
 
 ### Change Password
-PUT http://localhost:3000/common-api/change-password
+PUT https://skillintern-e-commerce-website.onrender.com/common-api/change-password
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### Block User
-PUT http://localhost:3000/admin-api/blockuser
+PUT https://skillintern-e-commerce-website.onrender.com/admin-api/blockuser
 Content-Type: application/json
 
 {
@@ -49,7 +49,7 @@ Content-Type: application/json
 }
 
 ### Unblock User
-PUT http://localhost:3000/admin-api/unblockuser
+PUT https://skillintern-e-commerce-website.onrender.com/admin-api/unblockuser
 Content-Type: application/json
 
 {
@@ -57,31 +57,34 @@ Content-Type: application/json
 }
 
 ### Add to Cart
-PUT http://localhost:3000/user-api/user-cart/PRODUCT_ID_HERE
+PUT https://skillintern-e-commerce-website.onrender.com/user-api/user-cart/PRODUCT_ID_HERE
 
 ### Add Product (Admin)
-POST http://localhost:3000/product-api/products
+POST https://skillintern-e-commerce-website.onrender.com/product-api/products
 Content-Type: application/json
 
 {
-  "name": "Sample Product",
-  "description": "Sample description",
-  "price": 100,
-  "stock": 10,
-  "image": "https://via.placeholder.com/150",
-  "category": "electronics",
-  "brand": "sample brand",
-  "isActive": true
+    "name": "Trendy Women's Handbag",
+    "description": "Stylish and spacious handbag for daily use, made with durable material and elegant design.",
+    "price": 34,
+    "stock": 20,
+    "image": "https://images.meesho.com/images/products/461021810/wykhk_512.avif?width=360",
+    "category": "women's accessories",
+    "brand": "Meesho",
+    "isActive": true
 }
 
 ### Get All Products
-GET http://localhost:3000/product-api/products
+GET https://skillintern-e-commerce-website.onrender.com/product-api/products
+
+### Get ALL PRODUCTS 
+GET https://skillintern-e-commerce-website.onrender.com/product-api/products
 
 ### Get Product by ID
-GET http://localhost:3000/product-api/product-id/PRODUCT_ID_HERE
+GET https://skillintern-e-commerce-website.onrender.com/product-api/product-id/PRODUCT_ID_HERE
 
 ### Update Product
-PUT http://localhost:3000/product-api/update-product/PRODUCT_ID_HERE
+PUT https://skillintern-e-commerce-website.onrender.com/product-api/update-product/PRODUCT_ID_HERE
 Content-Type: application/json
 
 {
@@ -89,16 +92,16 @@ Content-Type: application/json
 }
 
 ### Delete Product
-DELETE http://localhost:3000/admin-api/product-id/PRODUCT_ID_HERE
+DELETE https://skillintern-e-commerce-website.onrender.com/admin-api/product-id/PRODUCT_ID_HERE
 
 ### Filter by Category
-GET http://localhost:3000/product-api/filter-category/electronics
+GET https://skillintern-e-commerce-website.onrender.com/product-api/filter-category/electronics
 
 ### Get User by ID
-GET http://localhost:3000/user-api/users/USER_ID_HERE
+GET https://skillintern-e-commerce-website.onrender.com:3000/user-api/users/USER_ID_HERE
 
 ### Update User
-PUT http://localhost:3000/user-api/update-user/USER_ID_HERE
+PUT https://skillintern-e-commerce-website.onrender.com/user-api/update-user/USER_ID_HERE
 Content-Type: application/json
 
 {

@@ -4,6 +4,21 @@ A full-stack E-commerce web application with user authentication, product manage
 
 ---
 
+
+
+## 🌐 Live Demo
+
+Frontend:https://skillintern-e-commerce-website-proj.vercel.app
+Backend API: https://skillintern-e-commerce-website.onrender.com
+
+### The backend is deployed on Render (Free Tier).
+
+The server may go into sleep mode after inactivity
+First request can take 30–60 seconds to respond
+
+👉 Please wait for a moment if data doesn’t load initially.
+
+
 ## 🚀 Features
 
 ### 👤 User Features
@@ -35,10 +50,17 @@ A full-stack E-commerce web application with user authentication, product manage
 - Express.js
 - MongoDB (Mongoose)
 
-### Payment
-- Razorpay Integration
+### Payment Integration
+Razorpay is used for online payments.
 
----
+Install Razorpay package:
+```bash
+npm install razorpay
+### Supports:
+UPI
+Cards
+Net Banking
+
 
 ## 📁 Project Structure
 E-commerce-project/
@@ -58,13 +80,11 @@ E-commerce-project/
 └── README.md
 
 
-
-
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone 
+git clone https://github.com/JyosnaBogari/Skillintern_E-Commerce-Website-Project
 cd E-CommerceProject
 
 ### backend
@@ -77,13 +97,6 @@ cd frontend
 npm install
 npm run dev
 
-### Payment Integration
-Razorpay is used for online payments
-
-### Supports:
-UPI
-Cards
-Net Banking
 
 ### 🔐 Security Features
 JWT Authentication
@@ -103,12 +116,19 @@ Wishlist Feature
 Order Tracking
 Email Notifications
 
-###👩‍💻 Author
+### 👩‍💻 Author
 Bogari Jyosna
 
 
 ## 🧪 API Testing
-
 API endpoints were tested using REST Client (.http files) inside the backend folder.
-
 You can use tools like VS Code REST Client or Postman to test APIs.
+
+### 🔑 Environment Variables Section
+Create a `.env` file in the backend folder and add:
+
+PORT=3000
+DB_URL=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+RAZORPAY_KEY_ID=your_key
+RAZORPAY_KEY_SECRET=your_secret

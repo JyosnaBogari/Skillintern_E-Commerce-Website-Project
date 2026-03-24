@@ -10,7 +10,7 @@ import {
   bodyText,
   pageWrapper
 } from "../styles/common"; // Reusable styling classes
-
+import BASE_URL from "../config/baseAPI";
 import { useNavigate } from "react-router"; // Hook for navigation
 import { useAuth } from "../store/authStore"; // Global auth/cart state
 
@@ -39,7 +39,7 @@ function Cart() {
 
         // API call to fetch user's cart items
         let res = await axios.get(
-          'https://skillintern-e-commerce-website.onrender.com/user-api/user-cart',
+          `${BASE_URL}/user-api/user-cart`,
           { withCredentials: true } // Include cookies for authentication
         );
 
@@ -70,7 +70,7 @@ function Cart() {
 
       // API call to remove item from cart
       await axios.delete(
-        `https://skillintern-e-commerce-website.onrender.com/user-api/remove-cart/${pid}`,
+        `${BASE_URL}/user-api/remove-cart/${pid}`,
         { withCredentials: true }
       );
 

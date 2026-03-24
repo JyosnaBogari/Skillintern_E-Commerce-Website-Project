@@ -1,6 +1,7 @@
 import axios from 'axios'; // for making API requests
 import { create } from 'zustand'; // state management
 import { persist } from 'zustand/middleware'; // persist state in localStorage
+import BASE_URL from '../config/baseAPI';
 
 export const useAuth = create(
   persist(
@@ -17,7 +18,7 @@ export const useAuth = create(
       // fetch cart items and calculate total quantity
       refreshCart: async () => {
         try {
-          const res = await axios.get('https://skillintern-e-commerce-website.onrender.com/user-api/user-cart', {
+          const res = await axios.get(`${BASE_URL}/user-api/user-cart`, {
             withCredentials: true, // send cookies/session
           });
 
@@ -43,7 +44,7 @@ export const useAuth = create(
 
           // send login request
           const res = await axios.post(
-            'https://skillintern-e-commerce-website.onrender.com/common-api/authenticate',
+            `${BASE_URL}/common-api/authenticate`,
             userCredObj,
             { withCredentials: true }
           );
@@ -74,7 +75,7 @@ export const useAuth = create(
           set({ loading: true, error: null });
 
           // call logout API
-          await axios.get('https://skillintern-e-commerce-website.onrender.com/common-api/logout', {
+          await axios.get(`${BASE_URL}/common-api/logout`, {
             withCredentials: true,
           });
 

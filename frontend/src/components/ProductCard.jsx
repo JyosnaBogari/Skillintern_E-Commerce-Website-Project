@@ -7,7 +7,7 @@ import {
  bodyText,
  productImage
 } from "../styles/common"
-
+import BASE_URL from "../config/baseAPI";
 import { useEffect, useState } from "react";
 import { toast } from 'react-hot-toast'
 import axios from "axios";
@@ -30,7 +30,7 @@ function ProductCard() {
       setLoading(true)
       try {
         const res = await axios.get(
-          `https://skillintern-e-commerce-website.onrender.com/product-api/product-id/${productId}`
+          `${BASE_URL}/product-api/product-id/${productId}`
         )
         setProduct(res.data.payload)
       } catch (err) {
@@ -55,7 +55,7 @@ function ProductCard() {
   const gotoCart = async (productObj) => {
     try {
       let res = await axios.put(
-        `https://skillintern-e-commerce-website.onrender.com/user-api/user-cart/${productObj._id}`,
+        `${BASE_URL}/user-api/user-cart/${productObj._id}`,
         {},
         { withCredentials: true }
       )

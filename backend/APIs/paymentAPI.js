@@ -1,11 +1,12 @@
 import express from "express";
 import { razorpay } from "../utils/razorpay.js";
 import crypto from "crypto";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 export const paymentRoute = express.Router();
 
-// 1️⃣ Create Order
-paymentRoute.post("/create-order", async (req, res) => {
+//  Create Order
+paymentRoute.post("/create-order", verifyToken("USER"), async (req, res) => {
   try {
     const { amount } = req.body;
 
@@ -25,8 +26,8 @@ paymentRoute.post("/create-order", async (req, res) => {
   }
 });
 
-// 2️⃣ Verify Payment
-paymentRoute.post("/verify", (req, res) => {
+//  Verify Payment
+paymentRoute.post("/verify", verifyToken("USER"), (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;

@@ -12,7 +12,7 @@ import {
 
 import axios from 'axios'; // HTTP client for API calls
 // import { useAuth } from "../store/authStore";
-
+import BASE_URL from "../config/baseAPI";
 import { useNavigate } from "react-router"; // Navigation hook
 import toast from "react-hot-toast"; // Toast notifications (currently unused)
 
@@ -47,7 +47,7 @@ function UserProfile() {
 
         // API call to fetch all products
         let res = await axios.get(
-          'https://skillintern-e-commerce-website.onrender.com/product-api/products',
+          `${BASE_URL}/product-api/products`,
           { withCredentials: true }
         )
 
@@ -88,7 +88,8 @@ function UserProfile() {
         <div className={pageWrapper}>
 
           {/* Page Title */}
-          <h1 className="text-3xl font-bold text-[#1d1d1f] mb-10">
+          {/* Page Title */}
+          <h1 className="text-3xl text-center font-bold text-[#d7a851] mb-10">
             Products
           </h1>
 

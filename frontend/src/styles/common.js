@@ -4,8 +4,8 @@
 
 // ─── Layout ───────────────────────────────────────────
 export const pageBackground = "bg-[#f5f5f7] min-h-screen"
-// export const pageWrapper    = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16"
-export const pageWrapper = "w-full px-2 sm:px-4 lg:px-6 py-6 sm:py-8"
+export const pageWrapper = "w-full mx-auto sm:py-4 md:py-6 lg:py-8 pt-4 sm:pt-5 md:pt-8 lg:pt-10"
+// export const pageWrapper = "w-full sm:px-4 lg:px-6 sm:py-8"
 export const section        = "mb-8 sm:mb-12 lg:mb-14"
 
 // ─── Cards ────────────────────────────────────────────
@@ -54,6 +54,8 @@ export const productTitle       = "text-sm sm:text-base font-semibold text-[#131
 export const productExcerpt     = "text-xs sm:text-sm text-[#666] leading-relaxed"
 export const productMeta        = "text-xs text-[#999]"
 export const productBody        = "text-[#333] leading-[1.85] text-sm sm:text-[0.95rem] max-w-2xl"
+
+
 export const timestampClass     = "text-xs text-[#999] flex items-center gap-1.5"
 export const tagClass           = "text-[0.65rem] font-semibold text-[#ff9900] uppercase tracking-widest w-fit"
 
@@ -87,8 +89,9 @@ export const footerButton       = "inline-flex items-center justify-center gap-2
 export const divider            = "border-t border-[#e8e8ed] my-10"
 
 //product 
-export const productImage="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto"
-export const productName="text-base sm:text-lg font-bold"
+// export const productImage="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto"
+export const productImage ="w-full max-h-[400px] object-contain rounded-md mx-auto"
+export const productName = "text-center text-sm sm:text-base md:text-lg lg:text-xl font-bold"
 // cart
 // Cart
 export const cartWrapper = "max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12"

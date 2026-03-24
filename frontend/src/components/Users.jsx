@@ -12,7 +12,7 @@ import {
  primaryBtn,
  secondaryBtn
 } from "../styles/common"; // Reusable styling classes
-
+import BASE_URL from "../config/baseAPI";
 import { toast } from "react-hot-toast"; // Toast notifications
 
 function Users() {
@@ -41,7 +41,7 @@ function Users() {
 
     // API call to fetch all users
     let res = await axios.get(
-     "https://skillintern-e-commerce-website.onrender.com/user-api/users",
+     `${BASE_URL}/user-api/users`,
      { withCredentials: true } // Include authentication cookies
     )
 
@@ -71,7 +71,7 @@ function Users() {
 
    // API call to block user
    await axios.put(
-    "https://skillintern-e-commerce-website.onrender.com/admin-api/blockuser",
+    `${BASE_URL}/admin-api/blockuser`,
     { userId },
     { withCredentials: true }
    )
@@ -95,7 +95,7 @@ function Users() {
 
    // API call to unblock user
    await axios.put(
-    "https://skillintern-e-commerce-website.onrender.com/admin-api/unblockuser",
+    `${BASE_URL}/admin-api/unblockuser`,
     { userId },
     { withCredentials: true }
    )

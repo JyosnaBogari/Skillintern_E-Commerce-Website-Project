@@ -10,7 +10,7 @@ commonRoute.post('/authenticate', async (req, res) => {
 
     let userCred = req.body;
     let { token, user } = await authenticate(userCred);
-    res.cookie("token", token, { httpOnly: true, sameSite: "lax", secure: false })
+    res.cookie("token", token, { httpOnly: true, sameSite:"none", secure: true })
     user.password = undefined
     res.status(200).json({ message: "login succesfully", payload: user })
 })
@@ -22,8 +22,8 @@ commonRoute.get('/logout', async (req, res) => {
     //clear the cookie named 'token'
     res.clearCookie('token', {  //here the details like httpOnly,secure,sameSite should match the created token
         httpOnly: true,
-        secure: false, //it can work on both http and https
-        sameSite: 'lax' //medium restrictions
+        secure: true, //it can work on both http and https
+        sameSite: "none" //medium restrictions
     });
     res.status(200).json({ message: "logged out succesfully" });
 })

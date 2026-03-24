@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form" // Form management library
 import axios from "axios" // HTTP client for API calls
 import { useAuth } from "../store/authStore" // Global auth store to access current user
 import { toast } from "react-hot-toast" // Toast notifications
-
+import BASE_URL from "../config/baseAPI"
 import {
   formCard,
   formTitle,
@@ -25,7 +25,7 @@ function EditUser() {
     try {
       // API call to update user details using user ID
       await axios.put(
-        `https://skillintern-e-commerce-website.onrender.com/user-api/update-user/${currentUser._id}`,
+        `${BASE_URL}/user-api/update-user/${currentUser._id}`,
         data,
         { withCredentials: true } // Include authentication cookies
       )

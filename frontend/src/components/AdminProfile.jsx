@@ -9,6 +9,7 @@ import {
   primaryBtn
 } from "../styles/common" // Reusable styling classes
 import { useNavigate } from "react-router" // Hook for programmatic navigation
+import BASE_URL from "../config/baseAPI"
 
 function AdminProfile() {
 
@@ -33,14 +34,14 @@ function AdminProfile() {
       try {
         // Fetch all products and calculate total count
         const prodRes = await axios.get(
-          "https://skillintern-e-commerce-website.onrender.com/product-api/products",
+          `${BASE_URL}/product-api/products`,
           { withCredentials: true }
         )
         setTotalProducts(prodRes.data.payload.length)
 
         // Fetch all orders
         const orderRes = await axios.get(
-          "https://skillintern-e-commerce-website.onrender.com/admin-api/orders",
+          `${BASE_URL}/admin-api/orders`,
           { withCredentials: true }
         )
 

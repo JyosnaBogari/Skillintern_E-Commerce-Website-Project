@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import {useForm} from 'react-hook-form';
 import {toast} from 'react-hot-toast'
+import BASE_URL from "../config/baseAPI";
 
 import {
   adminPageWrapper,
@@ -31,7 +32,7 @@ function AddProduct() {
 
       // send POST request to backend to add product (admin only)
       await axios.post(
-        'https://skillintern-e-commerce-website.onrender.com/product-api/products',
+        `${BASE_URL}/product-api/products`,
         newProduct,
         { withCredentials: true } // send cookies (JWT token) for authentication
       );

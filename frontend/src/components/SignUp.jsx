@@ -2,7 +2,7 @@ import { useState } from 'react' // React hook for state management
 import { useForm } from 'react-hook-form' // Form handling & validation
 import axios from 'axios' // HTTP client for API calls
 import { useNavigate } from 'react-router' // Navigation hook
-
+import BASE_URL from '../config/baseAPI.js'
 import {
   pageBackground,
   formCard,
@@ -42,20 +42,23 @@ function SignUp() {
     try {
       // API call to register new user
       let resObj = await axios.post(
-        "https://skillintern-e-commerce-website.onrender.com/user-api/users",
+        `${BASE_URL}/user-api/users`,
         newUser,
         { withCredentials: true } // Include cookies if needed
       )
 
       // On successful registration
-      if (resObj.status === 201) {
+      if (resObj.status === 201 || resObj.status===200) {
         reset() // Clear form fields
         navigate("/signin") // Redirect to login page
       }
+    console.log(resObj)
 
     } catch (err) {
+       console.log("FULL ERROR:", err)
+  console.log("RESPONSE:", err.response)
       // Handle API error safely
-      setError(err.response?.data?.error || "Registration failed")
+      setError(err.response?.data?.error || err.message || "Registration failed")
 
     } finally {
       setLoading(false) // Stop loading

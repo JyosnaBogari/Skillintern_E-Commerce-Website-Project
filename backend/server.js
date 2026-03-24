@@ -14,6 +14,8 @@ config();
 
 //create express application
 const app = exp();
+
+app.set("trust proxy", 1);
 //add cors
 // app.use(cors({origin: ['https://skillintern-e-commerce-website-proj.vercel.app'],credentials:true}));
 app.use(cors({

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react" // React hooks for state and lifecycle
 import axios from "axios" // For making HTTP requests
+import BASE_URL from "../config/baseAPI"
 import {
   adminPageWrapper,
   adminHeader,
@@ -28,7 +29,7 @@ function AdminOrders() {
         setError(null)   // Reset any previous errors
 
         // API call to fetch all orders (admin route)
-        const res = await axios.get("https://skillintern-e-commerce-website.onrender.com/admin-api/orders", {
+        const res = await axios.get(`${BASE_URL}/admin-api/orders`, {
           withCredentials: true, // send cookies for authentication
         })
 

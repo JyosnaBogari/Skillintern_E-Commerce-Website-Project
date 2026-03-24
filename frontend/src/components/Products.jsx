@@ -12,7 +12,7 @@ import {
   filterButton,
   errorClass
 } from "../styles/common" // Reusable CSS classes
-
+import BASE_URL from "../config/baseAPI"
 import axios from "axios" // For API requests
 import { useNavigate, useLocation } from "react-router" // Routing hooks
 
@@ -96,7 +96,7 @@ function Products() {
       setError(null)
 
       let res = await axios.get(
-        "https://skillintern-e-commerce-website.onrender.com/product-api/products",
+        `${BASE_URL}/product-api/products`,
         { withCredentials: true }
       )
 
@@ -181,7 +181,7 @@ function Products() {
         <img
           src={heroImages[heroIndex].src}
           alt={heroImages[heroIndex].alt}
-          className="w-full h-48 sm:h-64 md:h-80 lg:h-105 object-center"
+         className="w-full h-[220px] sm:h-[300px] md:h-[380px] lg:h-[500px] object-cover"
         />
 
         {/* Overlay content */}
@@ -199,8 +199,9 @@ function Products() {
         </div>
       </section>
 
+    <div className="px-3 sm:px-6 md:px-8 lg:px-10 xl:px-16">
       {/* WISHLIST BUTTON */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-4 ">
         <div
           onClick={() => navigate("/wishlist")}
           className="flex items-center gap-2 bg-white border px-4 py-2 rounded-full cursor-pointer"
@@ -331,6 +332,7 @@ function Products() {
 
       </div>
 
+    </div>
     </div>
   )
 }

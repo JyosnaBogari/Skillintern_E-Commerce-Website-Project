@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"; // React hooks
 import axios from "axios"; // API calls
 import toast from "react-hot-toast"; // notifications
-
+import BASE_URL from "../config/baseAPI";
 import {
   errorClass,
   loadingClass,
@@ -30,7 +30,7 @@ function PlaceOrder() {
         setLoading(true);
         // make API request
         const res = await axios.post(
-          "https://skillintern-e-commerce-website.onrender.com/order-api/place-order",
+          `${BASE_URL}/order-api/place-order`,
           {}, // no user object sending
           { withCredentials: true } // send cookies/session
         );
@@ -53,7 +53,7 @@ const handlePayment = async () => {
   try {
     // create payment order
     const res = await axios.post(
-      "https://skillintern-e-commerce-website.onrender.com/api/payment/create-order",
+      `${BASE_URL}/api/payment/create-order`,
       { amount: order.totalAmount },
       { withCredentials: true }
     );
@@ -81,7 +81,7 @@ const handlePayment = async () => {
 
           if (verify.data.success) {
             await axios.post(
-              "https://skillintern-e-commerce-website.onrender.com/order-api/confirm-order",
+              `${BASE_URL}/order-api/confirm-order`,
               {
                 orderId: order._id,
                 paymentId: response.razorpay_payment_id,

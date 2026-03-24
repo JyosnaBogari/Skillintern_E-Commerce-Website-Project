@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import axios from "axios"
-
+import BASE_URL from "../config/baseAPI"
 import {
  loadingClass,
  adminPageWrapper,
@@ -31,7 +31,7 @@ function Orders() {
     setLoading(true)
 
     let res = await axios.get(
-     "https://skillintern-e-commerce-website.onrender.com/admin-api/orders",
+     `${BASE_URL}/admin-api/orders`,
      { withCredentials: true }
     )
 

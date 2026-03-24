@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form" // Form handling with validation support
 import axios from "axios" // HTTP client for API requests
 import { toast } from "react-hot-toast" // Toast notifications
-
+import BASE_URL from "../config/baseAPI"
 import {
   formCard,
   formTitle,
@@ -21,7 +21,7 @@ function ChangePassword() {
     try {
       // API call to update password
       await axios.put(
-        "https://skillintern-e-commerce-website.onrender.com/common-api/change-password",
+        `${BASE_URL}/common-api/change-password`,
         data,
         { withCredentials: true } // Include authentication cookies
       )

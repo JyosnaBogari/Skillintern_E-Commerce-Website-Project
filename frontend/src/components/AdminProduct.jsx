@@ -20,6 +20,7 @@ import {
 } from "../styles/common" // Reusable styling classes
 
 import { toast } from "react-hot-toast" // Notification library
+import BASE_URL from "../config/baseAPI"
 
 function AdminProducts() {
 
@@ -41,7 +42,7 @@ function AdminProducts() {
     // Function to fetch products from API
     async function getProducts() {
       let res = await axios.get(
-        "https://skillintern-e-commerce-website.onrender.com/product-api/products",
+        `${BASE_URL}/product-api/products`,
         { withCredentials: true } // Include cookies for authentication
       )
 
@@ -60,7 +61,7 @@ function AdminProducts() {
     try {
       // API call to delete product by ID
       await axios.delete(
-        `https://skillintern-e-commerce-website.onrender.com/admin-api/product-id/${id}`,
+        `${BASE_URL}/admin-api/product-id/${id}`,
         { withCredentials: true }
       )
 

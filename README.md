@@ -6,8 +6,8 @@ A full-stack E-commerce web application with user authentication, product manage
 
 ## 🌐 Live Demo
 
-- **Frontend**: [https://skillintern-e-commerce-website-proj.vercel.app](https://skillintern-e-commerce-website-proj.vercel.app)
-- **Backend API**: [https://skillintern-e-commerce-website.onrender.com](https://skillintern-e-commerce-website.onrender.com)
+- **Frontend**: https://skillintern-e-commerce-website-proj-gamma.vercel.app
+- **Backend API**: https://skillintern-e-commerce-website.onrender.com
 
 > **Note**: The backend is deployed on Render (Free Tier). The server may go into sleep mode after inactivity. First request can take 30–60 seconds to respond. Please wait for a moment if data doesn't load initially.
 
@@ -233,8 +233,8 @@ This project is for educational purposes.
 ## 👨‍💻 Author
 
 **Jyosna Bogari**
-- GitHub: [your-github-username](https://github.com/your-github-username)
-- LinkedIn: [your-linkedin](https://linkedin.com/in/your-profile)
+- GitHub: https://github.com/JyosnaBogari/Skillintern_E-Commerce-Website-Project
+  
 
 ---
 

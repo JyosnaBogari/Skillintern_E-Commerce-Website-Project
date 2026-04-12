@@ -44,12 +44,19 @@ function SignIn() {
       }
 
       if(currentUser.role==="ADMIN"){
+        toast.success("Logged In successfully")
         navigate('/admin-profile')
       }
 
     }
 
-  },[isAuthenticated,currentUser])
+  },[isAuthenticated,currentUser,navigate])
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
 
   return (
 

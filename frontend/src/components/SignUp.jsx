@@ -2,6 +2,7 @@ import { useState } from 'react' // React hook for state management
 import { useForm } from 'react-hook-form' // Form handling & validation
 import axios from 'axios' // HTTP client for API calls
 import { useNavigate } from 'react-router' // Navigation hook
+import { toast } from 'react-hot-toast'
 import BASE_URL from '../config/baseAPI.js'
 import {
   pageBackground,
@@ -50,6 +51,7 @@ function SignUp() {
       // On successful registration
       if (resObj.status === 201 || resObj.status===200) {
         reset() // Clear form fields
+        toast.success("Account created successfully. Please sign in.")
         navigate("/signin") // Redirect to login page
       }
     console.log(resObj)
@@ -57,8 +59,9 @@ function SignUp() {
     } catch (err) {
        console.log("FULL ERROR:", err)
   console.log("RESPONSE:", err.response)
-      // Handle API error safely
-      setError(err.response?.data?.error || err.message || "Registration failed")
+      const message = err.response?.data?.error || err.message || "Registration failed"
+      setError(message)
+      toast.error(message)
 
     } finally {
       setLoading(false) // Stop loading

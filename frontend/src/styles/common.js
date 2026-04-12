@@ -4,7 +4,7 @@
 
 // ─── Layout ───────────────────────────────────────────
 export const pageBackground = "bg-[#f5f5f7] min-h-screen"
-export const pageWrapper = "w-full mx-auto sm:py-4 md:py-6 lg:py-8 pt-4 sm:pt-5 md:pt-8 lg:pt-10"
+export const pageWrapper = "w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-4 md:py-6 lg:py-8 pt-4 sm:pt-5 md:pt-8 lg:pt-10"
 // export const pageWrapper = "w-full sm:px-4 lg:px-6 sm:py-8"
 export const section        = "mb-8 sm:mb-12 lg:mb-14"
 
@@ -95,7 +95,7 @@ export const productName = "text-center text-sm sm:text-base md:text-lg lg:text-
 // cart
 // Cart
 export const cartWrapper = "max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12"
-export const cartCard = "bg-white rounded-lg p-3 sm:p-4 flex flex-col items-center text-center gap-2 sm:gap-3 mb-4 sm:mb-6 hover:shadow-lg transition-shadow border border-gray-200"
+export const cartCard = "bg-white rounded-lg p-4 mb-4 sm:mb-6 hover:shadow-lg transition-shadow border border-gray-200"
 export const priceText = "text-xs sm:text-sm text-[#666]"
 export const quantityText = "text-xs sm:text-sm text-[#666]"
 export const totalPriceClass = "text-lg sm:text-xl font-semibold text-[#131921] mt-4 sm:mt-6"

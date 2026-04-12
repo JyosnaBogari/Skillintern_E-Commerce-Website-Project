@@ -180,7 +180,7 @@ function Products() {
         <img
           src={heroImages[heroIndex].src}
           alt={heroImages[heroIndex].alt}
-          className="w-full h-55 sm:h-75 md:h-95 lg:h-125 object-cover"
+          className="w-full h-55 sm:h-75 md:h-95 lg:h-125 object-cover mt-5"
         />
 
         {/* Overlay content */}

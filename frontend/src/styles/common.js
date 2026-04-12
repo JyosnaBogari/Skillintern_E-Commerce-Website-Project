@@ -4,14 +4,16 @@
 
 // ─── Layout ───────────────────────────────────────────
 export const pageBackground = "bg-[#f5f5f7] min-h-screen"
-export const pageWrapper = "w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-4 md:py-6 lg:py-8 pt-4 sm:pt-5 md:pt-8 lg:pt-10"
+// export const pageWrapper = "w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 sm:py-4 md:py-6 lg:py-8 pt-4 sm:pt-5 md:pt-8 lg:pt-10"
 // export const pageWrapper = "w-full sm:px-4 lg:px-6 sm:py-8"
+export const pageWrapper = "w-full px-4 sm:px-6 lg:px-8 py-4"
 export const section        = "mb-8 sm:mb-12 lg:mb-14"
 
 // ─── Cards ────────────────────────────────────────────
 export const cardClass      = "bg-white rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-200"
 // Enhanced card effect for product items
-export const productCardClass   = "bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer min-h-[520px] w-80"
+export const productCardClass ="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer min-h-[520px] w-full"
+// export const productCardClass   = "bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer min-h-[520px] w-full"
 // ─── Typography ───────────────────────────────────────
 export const pageTitleClass = "text-2xl sm:text-3xl lg:text-4xl font-bold text-[#131921] tracking-tight leading-none mb-2"
 export const headingClass   = "text-xl sm:text-2xl font-bold text-[#131921] tracking-tight"
@@ -49,7 +51,8 @@ export const badgeClass         = "inline-flex items-center justify-center round
 
 
 // ─── Article / Blog ───────────────────────────────────
-export const productGrid        = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4"
+// export const productGrid        = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-4"
+export const productGrid ="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
 export const productTitle       = "text-sm sm:text-base font-semibold text-[#131921] leading-snug tracking-tight"
 export const productExcerpt     = "text-xs sm:text-sm text-[#666] leading-relaxed"
 export const productMeta        = "text-xs text-[#999]"
@@ -90,7 +93,7 @@ export const divider            = "border-t border-[#e8e8ed] my-10"
 
 //product 
 // export const productImage="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto"
-export const productImage ="w-full h-72 sm:h-80 md:h-96 lg:h-[28rem] object-cover rounded-md bg-[#fafafa]"
+export const productImage ="w-full h-72 sm:h-80 md:h-96 lg:h-[28rem] object-contain rounded-md bg-[#fafafa]"
 export const productName = "text-left text-sm sm:text-base md:text-lg lg:text-xl font-bold"
 // cart
 // Cart

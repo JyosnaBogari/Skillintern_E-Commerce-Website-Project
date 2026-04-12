@@ -200,145 +200,145 @@ function Products() {
 
       <div className={pageWrapper}>
         <div className="px-3 sm:px-6 md:px-8 lg:px-10 xl:px-16">
-      {/* WISHLIST BUTTON */}
-      <div className="flex justify-end mb-4 ">
-        <div
-          onClick={() => navigate("/wishlist")}
-          className="flex items-center gap-2 bg-white border px-4 py-2 rounded-full cursor-pointer"
-        >
-          ❤️ Wishlist
-          <span className="bg-pink-500 text-white px-2 rounded-full text-xs">
-            {wishlistCount}
-          </span>
-        </div>
-      </div>
-
-      {/* MAIN GRID LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 w-full">
-
-        {/* SIDEBAR FILTERS */}
-        <aside className="w-full lg:w-75 lg:sticky lg:top-20 self-start flex flex-col gap-4">
-
-          {/* Search filter */}
-          <div className="bg-white p-4 border rounded">
-            <p className={filterTitle}>🔍 Search</p>
-            <input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={filterInput}
-              placeholder="Search..."
-            />
-          </div>
-
-          {/* Category filter */}
-          <div className="bg-white p-4 border rounded">
-            <p className={filterTitle}>📂 Category</p>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className={filterInput}
+          {/* WISHLIST BUTTON */}
+          <div className="flex justify-end mb-4 ">
+            <div
+              onClick={() => navigate("/wishlist")}
+              className="flex items-center gap-2 bg-white border px-4 py-2 rounded-full cursor-pointer"
             >
-              <option value="">All</option>
-              {categories.map((c, i) => (
-                <option key={i}>{c}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Brand filter */}
-          <div className="bg-white p-4 border rounded">
-            <p className={filterTitle}>🏷️ Brand</p>
-            <select
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              className={filterInput}
-            >
-              <option value="">All</option>
-              {brands.map((b, i) => (
-                <option key={i}>{b}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Price filter */}
-          <div className="bg-white p-4 border rounded">
-            <p className={filterTitle}>💰 Price</p>
-            <div className="flex gap-2">
-              <input
-                type="number"
-                value={priceMin}
-                onChange={(e) => setPriceMin(e.target.value)}
-                className={filterInput}
-                placeholder="Min"
-              />
-              <input
-                type="number"
-                value={priceMax}
-                onChange={(e) => setPriceMax(e.target.value)}
-                className={filterInput}
-                placeholder="Max"
-              />
+              ❤️ Wishlist
+              <span className="bg-pink-500 text-white px-2 rounded-full text-xs">
+                {wishlistCount}
+              </span>
             </div>
           </div>
 
-          {/* Clear filters */}
-          <button
-            onClick={() => {
-              setCategory("")
-              setBrand("")
-              setPriceMin("")
-              setPriceMax("")
-              setSearchTerm("")
-            }}
-            className={filterButton}
-          >
-            Clear Filters
-          </button>
+          {/* MAIN GRID LAYOUT */}
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-6 w-full">
 
-        </aside>
+            {/* SIDEBAR FILTERS */}
+            <aside className="w-full lg:w-75 lg:sticky lg:top-20 self-start flex flex-col gap-4">
 
-        {/* PRODUCTS SECTION */}
-        <main className="w-full min-w-0 bg-white rounded-lg p-4 sm:p-6 shadow-sm">
+              {/* Search filter */}
+              <div className="bg-white p-4 border rounded">
+                <p className={filterTitle}>🔍 Search</p>
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={filterInput}
+                  placeholder="Search..."
+                />
+              </div>
 
-          {/* Empty state */}
-          {filteredProducts.length === 0 ? (
-            <div className={emptyStateClass}>
-              No products found
-            </div>
-          ) : (
-            // Product grid
-            <div className={productGrid}>
-              {filteredProducts.map((product, index) => (
-                <div
-                  key={index}
-                  onClick={() => gotoProduct(product)}
-                  className={productCardClass}
+              {/* Category filter */}
+              <div className="bg-white p-4 border rounded">
+                <p className={filterTitle}>📂 Category</p>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className={filterInput}
                 >
-                  <div className="overflow-hidden bg-[#fafafa]">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className={productImage}
-                    />
-                  </div>
-                  <div className="p-4 flex flex-col gap-3">
-                    <h2 className={productName}>{product.name}</h2>
-                    <p className="text-sm text-[#555] overflow-hidden">
-                      {product.description || product.category || "Product details"}
-                    </p>
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-lg font-semibold text-[#131921]">${product.price}</p>
-                      <span className="text-xs text-[#666]">Stock: {product.stock}</span>
-                    </div>
-                  </div>
+                  <option value="">All</option>
+                  {categories.map((c, i) => (
+                    <option key={i}>{c}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Brand filter */}
+              <div className="bg-white p-4 border rounded">
+                <p className={filterTitle}>🏷️ Brand</p>
+                <select
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  className={filterInput}
+                >
+                  <option value="">All</option>
+                  {brands.map((b, i) => (
+                    <option key={i}>{b}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Price filter */}
+              <div className="bg-white p-4 border rounded">
+                <p className={filterTitle}>💰 Price</p>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    value={priceMin}
+                    onChange={(e) => setPriceMin(e.target.value)}
+                    className={filterInput}
+                    placeholder="Min"
+                  />
+                  <input
+                    type="number"
+                    value={priceMax}
+                    onChange={(e) => setPriceMax(e.target.value)}
+                    className={filterInput}
+                    placeholder="Max"
+                  />
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
 
-        </main>
+              {/* Clear filters */}
+              <button
+                onClick={() => {
+                  setCategory("")
+                  setBrand("")
+                  setPriceMin("")
+                  setPriceMax("")
+                  setSearchTerm("")
+                }}
+                className={filterButton}
+              >
+                Clear Filters
+              </button>
 
-      </div>
+            </aside>
+
+            {/* PRODUCTS SECTION */}
+            <main className="w-full min-w-0 bg-white rounded-lg p-4 sm:p-6 shadow-sm">
+
+              {/* Empty state */}
+              {filteredProducts.length === 0 ? (
+                <div className={emptyStateClass}>
+                  No products found
+                </div>
+              ) : (
+                // Product grid
+                <div className={productGrid}>
+                  {filteredProducts.map((product, index) => (
+                    <div
+                      key={index}
+                      onClick={() => gotoProduct(product)}
+                      className={productCardClass}
+                    >
+                      <div className="w-full h-64 flex items-center justify-center bg-[#fafafa] overflow-hidden">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="h-full w-full object-contain transition-transform duration-300 hover:scale-105"
+                        />
+                      </div>
+                      <div className="p-4 flex flex-col gap-3">
+                        <h2 className={productName}>{product.name}</h2>
+                        <p className="text-sm text-[#555] overflow-hidden">
+                          {product.description || product.category || "Product details"}
+                        </p>
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-lg font-semibold text-[#131921]">${product.price}</p>
+                          <span className="text-xs text-[#666]">Stock: {product.stock}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+            </main>
+
+          </div>
 
         </div>
       </div>

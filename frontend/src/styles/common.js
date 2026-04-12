@@ -11,7 +11,7 @@ export const section        = "mb-8 sm:mb-12 lg:mb-14"
 // ─── Cards ────────────────────────────────────────────
 export const cardClass      = "bg-white rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-200"
 // Enhanced card effect for product items
-export const productCardClass   = "bg-white p-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col gap-2.5 cursor-pointer rounded-lg border border-gray-200 min-h-[400px]"
+export const productCardClass   = "bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
 // ─── Typography ───────────────────────────────────────
 export const pageTitleClass = "text-2xl sm:text-3xl lg:text-4xl font-bold text-[#131921] tracking-tight leading-none mb-2"
 export const headingClass   = "text-xl sm:text-2xl font-bold text-[#131921] tracking-tight"
@@ -90,8 +90,8 @@ export const divider            = "border-t border-[#e8e8ed] my-10"
 
 //product 
 // export const productImage="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto"
-export const productImage ="w-full max-h-[400px] object-contain rounded-md mx-auto"
-export const productName = "text-center text-sm sm:text-base md:text-lg lg:text-xl font-bold"
+export const productImage ="w-full h-56 sm:h-64 md:h-72 object-contain rounded-md bg-[#fafafa]"
+export const productName = "text-left text-sm sm:text-base md:text-lg lg:text-xl font-bold"
 // cart
 // Cart
 export const cartWrapper = "max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12"

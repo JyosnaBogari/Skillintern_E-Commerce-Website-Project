@@ -144,13 +144,13 @@ function Cart() {
         {products.map((items) => (
           <div
             key={items.product._id}
-            className={cartCard + " grid gap-4 items-start"}
+            className={cartCard + " grid gap-4 md:grid-cols-[260px_1fr] items-start"}
           >
-            <div className="w-full h-72 overflow-hidden rounded-lg border border-gray-200 bg-[#fafafa]">
+            <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-[#fafafa] p-4 flex items-center justify-center">
               <img
                 src={items.product.image}
                 alt={items.product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-72 object-contain"
               />
             </div>
 

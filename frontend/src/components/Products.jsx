@@ -314,15 +314,23 @@ function Products() {
                   onClick={() => gotoProduct(product)}
                   className={productCardClass}
                 >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className={productImage}
-                  />
-                  <h2 className={productName}>{product.name}</h2>
-                  <p className="text-center font-semibold">
-                    ${product.price}
-                  </p>
+                  <div className="overflow-hidden bg-[#fafafa]">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className={productImage}
+                    />
+                  </div>
+                  <div className="p-4 flex flex-col gap-3">
+                    <h2 className={productName}>{product.name}</h2>
+                    <p className="text-sm text-[#555] overflow-hidden">
+                      {product.description || product.category || "Product details"}
+                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-lg font-semibold text-[#131921]">${product.price}</p>
+                      <span className="text-xs text-[#666]">Stock: {product.stock}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

@@ -109,6 +109,16 @@ function Cart() {
 
   // ================== EMPTY CART UI ==================
 
+  if (error) {
+    return (
+      <div className={cartWrapper}>
+        <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-center">
+          <p className={errorClass}>{error}</p>
+        </div>
+      </div>
+    )
+  }
+
   if (products.length === 0) {
     return (
       <div className={cartWrapper}>

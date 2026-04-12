@@ -10,7 +10,14 @@ commonRoute.post('/authenticate', async (req, res) => {
 
     let userCred = req.body;
     let { token, user } = await authenticate(userCred);
-    res.cookie("token", token, { httpOnly: true, sameSite:"lax", secure: false ,path:'/'})
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    };
+    res.cookie("token", token, cookieOptions)
     user.password = undefined
     res.status(200).json({ message: "login succesfully", payload: user })
 })
@@ -19,37 +26,42 @@ commonRoute.post('/authenticate', async (req, res) => {
 
 //logout/clear the cookies  
 commonRoute.get('/logout', async (req, res) => {
-    //clear the cookie named 'token'
-    res.clearCookie('token', {  //here the details like httpOnly,secure,sameSite should match the created token
+    const cookieOptions = {
         httpOnly: true,
-        secure: false, //it can work on both http and https
-        sameSite: "lax" ,//medium restrictions
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
         path:'/'
-    });
+    };
+    res.clearCookie('token', cookieOptions);
     res.status(200).json({ message: "logged out succesfully" });
 })
 
 //change password
 commonRoute.put('/change-password', verifyToken("USER"), async (req, res) => {
 
-    let { email, password, newpassword } = req.body;
+    let { password, newpassword } = req.body;
 
-    // checking the user is authorized or not
-    let user = await UserTypeModel.findOne({ email });
-    if (!user) {
-        return res.status(404).json({ message: "user email is not exist" });
+    if (!password || !newpassword) {
+        return res.status(400).json({ message: "Current password and new password are required." });
     }
+
+    let user = await UserTypeModel.findById(req.user.userId);
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
     // compare passwords
     let isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
-        return res.status(400).json({ message: "password not matched!" })
+        return res.status(400).json({ message: "Current password does not match" })
     }
 
     let hashedNewPassword = await bcrypt.hash(newpassword, 10)
-    let updatedPassword = await UserTypeModel.findByIdAndUpdate(user._id, { $set: { password: hashedNewPassword } }, { new: true })
-    //here i need to remove the payload
+    await UserTypeModel.findByIdAndUpdate(user._id, { $set: { password: hashedNewPassword } }, { new: true })
+
     res.status(200).json({
-        message: "password updated successfully", payload: null
+        message: "password updated successfully",
+        payload: null
     })
 })
 

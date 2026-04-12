@@ -16,6 +16,7 @@ import { useAuth } from "../store/authStore";
 function ProductCard() {
 
   const [error, setError] = useState(null);
+  const [unauthorized, setUnauthorized] = useState(false)
   const [wishlist, setWishlist] = useState([])
   const [loading, setLoading] = useState(false)
   const [cartLoading, setCartLoading] = useState(false)
@@ -56,6 +57,7 @@ function ProductCard() {
   const gotoCart = async (productObj) => {
     try {
       setCartLoading(true)
+      setUnauthorized(false)
       const res = await axios.put(
         `${BASE_URL}/user-api/user-cart/${productObj._id}`,
         {},
@@ -70,7 +72,7 @@ function ProductCard() {
       }
     } catch (err) {
       if (err.response?.status === 403 || err.response?.status === 401) {
-        setError("login")
+        setUnauthorized(true)
         toast.error("Please login first")
       } else {
         toast.error(err.response?.data?.message || "Failed to add product to cart")
@@ -125,16 +127,6 @@ function ProductCard() {
 
       <div className={cardClass + " text-center flex flex-col items-center gap-4"}>
 
-        {/* human show login button if unauthorized */}
-        {(error === 403 || error === 401) && (
-          <button
-            onClick={() => navigate('/signin')}
-            className={primaryBtn}
-          >
-            Please Login to Add to Cart
-          </button>
-        )}
-
         <h1 className={headingClass}>{product?.name}</h1>
 
         {/* human show product image from cloudinary */}
@@ -156,6 +148,18 @@ function ProductCard() {
             ? `In Stock ${product?.stock}`
             : `Out Of Stock`}
         </p>
+
+        {unauthorized && (
+          <div className="w-full text-center mb-4">
+            <p className={bodyText}>You must sign in before adding items to your cart.</p>
+            <button
+              onClick={() => navigate('/signin')}
+              className={primaryBtn}
+            >
+              Go to Sign In
+            </button>
+          </div>
+        )}
 
         {/* human add to cart button */}
         <button

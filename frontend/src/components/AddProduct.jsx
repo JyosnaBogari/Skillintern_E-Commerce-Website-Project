@@ -1,8 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
-import {useForm} from 'react-hook-form';
-import {toast} from 'react-hot-toast'
-import BASE_URL from "../config/baseAPI";
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import BASE_URL from "../config/baseAPI"
 
 import {
   adminPageWrapper,
@@ -17,120 +17,120 @@ import {
 
 function AddProduct() {
 
-  // state to handle loading and error during API call
+  // human state for loading and error handling
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // react-hook-form setup for handling form and validations
-  const { handleSubmit, register, reset, formState: { errors } } = useForm();
+  // human react-hook-form setup
+  const { handleSubmit, register, reset, formState: { errors } } = useForm()
 
-  // function to handle product submission
+  // human submit handler
   const productSubmit = async (newProduct) => {
-    try{
-       // set loading true before API call
-      setLoading(true);
+    try {
+      setLoading(true)
 
-      // send POST request to backend to add product (admin only)
-      await axios.post(
-        `${BASE_URL}/product-api/products`,
-        newProduct,
-        { withCredentials: true } // send cookies (JWT token) for authentication
-      );
+      // human create FormData for backend file upload
+      const form = new FormData()
 
-      // show success message after product is added
-      toast.success("Product Added Successfully");
-      
-      // reset form fields after success
-      reset();
+      form.append("name", newProduct.name)
+      form.append("description", newProduct.description)
+      form.append("price", newProduct.price)
+      form.append("stock", newProduct.stock)
+      form.append("category", newProduct.category)
+      form.append("brand", newProduct.brand)
 
-    }catch(err){
+      // human image file handling
+      if (newProduct.image && newProduct.image[0]) {
+        form.append("image", newProduct.image[0])
+      }
 
-      // store error if API fails
-      setError(err);
+      // human API request
+      await axios.post(`${BASE_URL}/product-api/products`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        withCredentials: true
+      })
 
-    }finally{
-    
-      // stop loading after API completes (success or error)
-      setLoading(false);
+      toast.success("Product Added Successfully")
+      reset()
 
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong")
+    } finally {
+      setLoading(false)
     }
-
-  };
+  }
 
   return (
-
     <div className={adminPageWrapper}>
 
-      {/* page heading */}
       <h1 className={adminHeader}>Add New Product</h1>
 
       <div className={adminFormCard}>
-          {/* form to add new product */}
+
         <form onSubmit={handleSubmit(productSubmit)}>
 
-          {/* product name input */}
+          {/* Product Name */}
           <div className={formGroup}>
             <label className={labelClass}>Product Name</label>
-            <input type="text" placeholder="Enter product name" className={inputClass} {...register("name",{required:true})}/>
+            <input className={inputClass} {...register("name", { required: true })} />
             {errors.name && <p className={errorClass}>Name is required</p>}
           </div>
 
-          {/* product description input */}
+          {/* Description */}
           <div className={formGroup}>
             <label className={labelClass}>Description</label>
-            <input type="text" placeholder="Enter product description" className={inputClass} {...register("description",{required:true})}/>
-            {errors.description && <p className={errorClass}>Description is required</p>}
+            <input className={inputClass} {...register("description", { required: true })} />
           </div>
 
-          {/* price and stock inputs */}
+          {/* Price & Stock */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
             <div className={formGroup}>
-              <label className={labelClass}>Price ($)</label>
-              <input type="number" placeholder="Enter price" className={inputClass} {...register("price",{required:true})}/>
-              {errors.price && <p className={errorClass}>Price is required</p>}
+              <label className={labelClass}>Price</label>
+              <input type="number" className={inputClass} {...register("price", { required: true })} />
             </div>
 
             <div className={formGroup}>
-              <label className={labelClass}>Stock Quantity</label>
-              <input type="number" placeholder="Enter stock" className={inputClass} {...register("stock",{required:true})}/>
-              {errors.stock && <p className={errorClass}>Stock is required</p>}
+              <label className={labelClass}>Stock</label>
+              <input type="number" className={inputClass} {...register("stock", { required: true })} />
             </div>
+
           </div>
 
-          {/* product image URL */}
+          {/* Image Upload */}
           <div className={formGroup}>
-            <label className={labelClass}>Image URL</label>
-            <input type="text" placeholder="Enter image URL" className={inputClass} {...register("image",{required:true})}/>
-            {errors.image && <p className={errorClass}>Image URL is required</p>}
+            <label className={labelClass}>Upload Image</label>
+            <input type="file" className={inputClass} {...register("image", { required: true })} />
           </div>
 
-          {/* category and brand inputs */}
+          {/* Category & Brand */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
             <div className={formGroup}>
               <label className={labelClass}>Category</label>
-              <input type="text" placeholder="Enter category" className={inputClass} {...register("category",{required:true})}/>
-              {errors.category && <p className={errorClass}>Category is required</p>}
+              <input className={inputClass} {...register("category", { required: true })} />
             </div>
 
             <div className={formGroup}>
               <label className={labelClass}>Brand</label>
-              <input type="text" placeholder="Enter brand" className={inputClass} {...register("brand",{required:true})}/>
-              {errors.brand && <p className={errorClass}>Brand is required</p>}
+              <input className={inputClass} {...register("brand", { required: true })} />
             </div>
+
           </div>
 
-          {/* display backend error message if exists */}
-          {error && <p className={errorClass}>{error.response?.data?.error || "Something went wrong"}</p>}
+          {/* Error display */}
+          {error && <p className={errorClass}>{error}</p>}
 
-          {/* submit button with loading state */}
-          <button type="submit" className={submitBtn}>
+          {/* Submit */}
+          <button className={submitBtn}>
             {loading ? "Adding..." : "Add Product"}
           </button>
 
         </form>
 
       </div>
-
     </div>
   )
 }

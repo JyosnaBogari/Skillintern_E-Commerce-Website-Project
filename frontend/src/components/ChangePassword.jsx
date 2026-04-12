@@ -1,28 +1,45 @@
+import { useEffect } from "react" // React effect hook for lifecycle
 import { useForm } from "react-hook-form" // Form handling with validation support
 import axios from "axios" // HTTP client for API requests
+import { useAuth } from "../store/authStore" // Global auth store to access current user
 import { toast } from "react-hot-toast" // Toast notifications
 import BASE_URL from "../config/baseAPI"
 import {
+  pageWrapper,
   formCard,
   formTitle,
   formGroup,
   inputClass,
-  submitBtn
+  labelClass,
+  submitBtn,
+  bodyText
 } from "../styles/common" // Reusable styling classes
 
 function ChangePassword() {
 
   // Initialize react-hook-form with reset support
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit, reset, setValue } = useForm()
+  const currentUser = useAuth(state => state.currentUser)
+
+  useEffect(() => {
+    if (currentUser?.email) {
+      setValue("email", currentUser.email)
+    }
+  }, [currentUser, setValue])
 
   // ================== CHANGE PASSWORD HANDLER ==================
 
   const changePass = async (data) => {
     try {
+      const requestBody = {
+        ...data,
+        email: currentUser?.email || data.email
+      }
+
       // API call to update password
       await axios.put(
         `${BASE_URL}/common-api/change-password`,
-        data,
+        requestBody,
         { withCredentials: true } // Include authentication cookies
       )
 
@@ -32,41 +49,45 @@ function ChangePassword() {
 
     } catch (err) {
       console.error(err) // Log error for debugging
-      toast.error("Failed to change password.") // Show error feedback
+      toast.error(err.response?.data?.message || "Failed to change password.") // Show error feedback
     }
   }
 
   return (
-    <div className="py-16">
-
-      {/* Form container */}
+    <div className={pageWrapper + " flex justify-center items-start py-10"}>
       <form onSubmit={handleSubmit(changePass)} className={formCard}>
-
-        {/* Form title */}
         <h1 className={formTitle}>Change Password</h1>
+        <p className={bodyText + " mb-6 text-center text-sm text-[#555]"}>
+          Use a strong new password and keep your account secure.
+        </p>
 
-        {/* Email input */}
         <div className={formGroup}>
+          <label className={labelClass} htmlFor="email">Email</label>
           <input
+            id="email"
+            type="email"
             placeholder="Email"
             className={inputClass}
-            {...register("email")} // Register field with react-hook-form
+            {...register("email")}
+            readOnly
           />
         </div>
 
-        {/* Old password input */}
         <div className={formGroup}>
+          <label className={labelClass} htmlFor="password">Current Password</label>
           <input
+            id="password"
             type="password"
-            placeholder="Old Password"
+            placeholder="Current Password"
             className={inputClass}
             {...register("password")}
           />
         </div>
 
-        {/* New password input */}
         <div className={formGroup}>
+          <label className={labelClass} htmlFor="newpassword">New Password</label>
           <input
+            id="newpassword"
             type="password"
             placeholder="New Password"
             className={inputClass}
@@ -74,11 +95,9 @@ function ChangePassword() {
           />
         </div>
 
-        {/* Submit button */}
         <button type="submit" className={submitBtn}>
           Change Password
         </button>
-
       </form>
     </div>
   )

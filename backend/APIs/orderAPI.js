@@ -1,8 +1,8 @@
-import exp from 'express';
+import express from 'express';
 import {UserTypeModel} from '../models/userTypeModel.js'
 import {verifyToken} from '../middlewares/verifyToken.js'
 import { OrderModel } from '../models/orderModel.js';
-export const OrderRoute=exp.Router()
+export const OrderRoute=express.Router()
 
 //place order
 

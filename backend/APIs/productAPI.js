@@ -1,31 +1,61 @@
-import exp from 'express';
+import express from 'express';
 import { ProductModel } from '../models/productModel.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
+import { upload } from "../config/multer.js";
+import cloudinary from "../config/cloudinary.js";
+import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 
-export const productRoute = exp.Router()
+export const productRoute = express.Router()
 
-//post the products
-productRoute.post('/products', verifyToken("ADMIN"), async (req, res) => {
+/**
+ * POST /products - Create new product with image upload
+ * @middleware verifyToken("ADMIN") - Requires admin authentication
+ * @middleware upload.single("image") - Handles single file upload from FormData
+ * @param {Object} req.body - Product data (name, price, description, category, stock)
+ * @param {File} req.file - Image file from FormData field "image"
+ * @returns {Object} Created product with Cloudinary image URL
+ * @throws {Error} If upload or save fails, performs Cloudinary rollback
+ */
+productRoute.post("/products",
+  verifyToken("ADMIN"),
+  upload.single("image"),
+  async (req, res, next) => {
+    let cloudinaryResult;
+    try {
+      // Upload image to Cloudinary if provided
+      if (req.file) {
+        cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+      }
 
-    //get the product details from the req.body
-    let newProduct = req.body;
-    //checking the product details
-    let newProductDoc = new ProductModel(newProduct)
-    //save in database
-    await newProductDoc.save();
-    //send res
-    res.status(201).json({ message: "product created", payload: newProductDoc })
+      // Create product with Cloudinary URL
+      let newProduct = new ProductModel({
+        ...req.body,
+        image: cloudinaryResult?.secure_url
+      });
 
-})
+      // Save to database
+      await newProduct.save();
+      res.status(201).json({ message: "product created", payload: newProduct });
+    } catch (err) {
+      // Rollback: Delete uploaded image if DB save fails
+      if (cloudinaryResult?.public_id) {
+        await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+      }
+      next(err);
+    }
+  }
+);
 
-//get all the products
+/**
+ * GET /products - Retrieve all active products
+ * @returns {Object} Array of active products
+ * @throws {404} If no products are available
+ */
 productRoute.get('/products', async (req, res) => {
-    //check the product
     let productList = await ProductModel.find({ isActive: true })
     if (productList.length == 0) {
         return res.status(404).json({ message: "products are not available" })
     }
-    //send res
     res.status(200).json({ message: "products", payload: productList })
 })
 
@@ -43,23 +73,66 @@ productRoute.get('/product-id/:pid', async (req, res) => {
     res.status(200).json({ message: "One product", payload: singleProduct })
 })
 
-//update the product
-productRoute.put('/update-product/:pid', verifyToken("ADMIN"), async (req, res) => {
-    //get the user id from the req.params
+// PUT: Update product (with optional image update)
+// If new image provided: upload to Cloudinary, update DB, then delete old image
+// If no image provided: update other fields only
+// If DB update fails: delete the newly uploaded image from Cloudinary (rollback)
+productRoute.put(
+  '/update-product/:pid',
+  verifyToken("ADMIN"),
+  upload.single("image"), // Middleware allows optional image file with name "image"
+  async (req, res, next) => {
+
     let { pid } = req.params;
-    //get the user details from the req.body
     let productUpdates = req.body;
-    // console.log(productUpdates)
-    let isProductAvailable = await ProductModel.findById(pid)
-    // if product not available
-    if (!isProductAvailable || isProductAvailable.isActive === false) {
+    let cloudinaryResult;
+    let oldImagePublicId;
+
+    try {
+      let existingProduct = await ProductModel.findById(pid);
+
+      if (!existingProduct || existingProduct.isActive === false) {
         return res.status(404).json({ message: "product not found" });
+      }
+
+      if (req.file) {
+        // upload new image first
+        cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+
+        // save the old image public_id so we can delete only after DB update succeeds
+        if (existingProduct.image) {
+          const imageUrl = existingProduct.image;
+          const imageName = imageUrl.substring(imageUrl.lastIndexOf('/products/') + 10).split('.')[0];
+          oldImagePublicId = `products/${imageName}`;
+        }
+
+        productUpdates.image = cloudinaryResult.secure_url;
+      }
+
+      let updatedProduct = await ProductModel.findByIdAndUpdate(
+        pid,
+        { $set: productUpdates },
+        { new: true }
+      );
+
+      if (oldImagePublicId && cloudinaryResult?.public_id) {
+        await cloudinary.uploader.destroy(oldImagePublicId);
+      }
+
+      res.status(200).json({
+        message: "product updated",
+        payload: updatedProduct
+      });
+
+    } catch (err) {
+      if (cloudinaryResult?.public_id) {
+        await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+      }
+
+      next(err);
     }
-    // update the product
-    let updatedProduct = await ProductModel.findByIdAndUpdate(pid, { $set: productUpdates }, { new: true });
-    // send res
-    res.status(200).json({ message: "product by id", payload: updatedProduct });
-})
+  }
+);
 
 
 

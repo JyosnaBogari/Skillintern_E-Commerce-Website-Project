@@ -29,9 +29,9 @@ export const verifyToken = (...allowedRoles) => {
                 return res.status(401).json({ message: "Session expired." });
             }
             if (err.name === "JsonWebTokenError") {
-                return res.status(401).json({ message: "Invalid Token.please login" });
+                return res.status(401).json({ message: "Invalid Token. please login" });
             }
-            // next(err);
+            next(err);
         }
     }
 };

@@ -18,13 +18,14 @@ function ProductCard() {
   const [error, setError] = useState(null);
   const [wishlist, setWishlist] = useState([])
   const [loading, setLoading] = useState(false)
+  const [cartLoading, setCartLoading] = useState(false)
   const [product, setProduct] = useState(null)
 
-  const { productId } = useParams() // get product id from URL
+  const { productId } = useParams() //human get product id from URL
   const navigate = useNavigate();
   const refreshCart = useAuth(state => state.refreshCart)
 
-  // fetch product details from API
+  //human fetch product details from backend
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true)
@@ -45,42 +46,45 @@ function ProductCard() {
     }
   }, [productId])
 
-  // load wishlist from localStorage
+  //human load wishlist from localStorage
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("wishlist")) || []
     setWishlist(stored)
   }, [])
 
-  // add product to cart (API call)
+  //human add product to cart using API
   const gotoCart = async (productObj) => {
     try {
-      let res = await axios.put(
+      setCartLoading(true)
+      const res = await axios.put(
         `${BASE_URL}/user-api/user-cart/${productObj._id}`,
         {},
         { withCredentials: true }
       )
 
-      if (res.status === 200) {
-        toast.success("Product Added to Cart Successfully")
-        await refreshCart() // update cart count globally
+      if (res.status >= 200 && res.status < 300) {
+        toast.success("Product added to cart")
+        await refreshCart()
+      } else {
+        throw new Error("Unable to add item to cart")
       }
-
     } catch (err) {
-      // handle auth errors
       if (err.response?.status === 403 || err.response?.status === 401) {
-        setError(err.response?.status)
+        setError("login")
         toast.error("Please login first")
       } else {
-        toast.error("Failed to add product to cart")
+        toast.error(err.response?.data?.message || "Failed to add product to cart")
       }
+    } finally {
+      setCartLoading(false)
     }
   }
 
-  // add product to wishlist (localStorage)
+  //human add product to wishlist (stored in localStorage)
   const addToWishlist = (productObj) => {
     let updatedWishlist = [...wishlist]
 
-    // check if already exists
+    //human check if product already exists
     const alreadyExists = updatedWishlist.find(
       p => p._id === productObj._id
     )
@@ -94,22 +98,24 @@ function ProductCard() {
 
     setWishlist(updatedWishlist)
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist))
-    window.dispatchEvent(new Event('wishlistUpdated')) // notify other components
+
+    //human notify other components
+    window.dispatchEvent(new Event('wishlistUpdated'))
 
     toast.success("Added to Wishlist ❤️")
   }
 
-  // loading state UI
+  //human loading UI
   if (loading) {
     return <p className={bodyText}>Loading product...</p>
   }
 
-  // error UI
+  //human error UI
   if (error && typeof error === "string") {
     return <p className={bodyText}>{error}</p>
   }
 
-  // no product found
+  //human if product not found
   if (!product) {
     return <p className={bodyText}>Product not found</p>
   }
@@ -119,7 +125,7 @@ function ProductCard() {
 
       <div className={cardClass + " text-center flex flex-col items-center gap-4"}>
 
-        {/* show login button if unauthorized */}
+        {/* human show login button if unauthorized */}
         {(error === 403 || error === 401) && (
           <button
             onClick={() => navigate('/signin')}
@@ -131,7 +137,12 @@ function ProductCard() {
 
         <h1 className={headingClass}>{product?.name}</h1>
 
-        <img src={product?.image} className={productImage} />
+        {/* human show product image from cloudinary */}
+        <img 
+          src={product?.image} 
+          alt={product?.name} 
+          className={productImage} 
+        />
 
         <p className={bodyText}>{product?.description}</p>
         <p className={bodyText}>Category: {product?.category}</p>
@@ -139,21 +150,23 @@ function ProductCard() {
 
         <p className={headingClass}>${product?.price}</p>
 
-        {/* stock availability */}
+        {/* human stock display */}
         <p className={bodyText}>
           {product?.stock > 0
             ? `In Stock ${product?.stock}`
             : `Out Of Stock`}
         </p>
 
+        {/* human add to cart button */}
         <button
           className={primaryBtn}
-          disabled={product?.stock === 0} // disable if out of stock
+          disabled={product?.stock === 0 || cartLoading}
           onClick={() => gotoCart(product)}
         >
-          Add To Cart
+          {cartLoading ? "Adding..." : "Add To Cart"}
         </button>
 
+        {/* human wishlist button */}
         <button
           className={primaryBtn}
           onClick={() => addToWishlist(product)}

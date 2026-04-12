@@ -1,62 +1,106 @@
-import exp from 'express';
+import express from 'express';
 import { registration } from '../Services/authService.js';
 import { UserTypeModel } from '../models/userTypeModel.js';
 import { ProductModel } from '../models/productModel.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
+import { upload } from "../config/multer.js";
+import cloudinary from "../config/cloudinary.js";
+import { uploadToCloudinary } from "../config/cloudinaryUpload.js";
 
 //create mini router
-export const userRoute = exp.Router();
+export const userRoute = express.Router();
 
-//Register user
-userRoute.post('/users', async (req, res) => {
-    //get the user details from the req.body
-    let userObj = req.body;
-    // assign role
-    const newUserObj = await registration({ ...userObj, role: "USER" });
-    // send res
-    res.status(201).json({ message: "user created succesfully", payload: newUserObj });
-})
+/**
+ * POST /users - Register new user with optional profile image
+ * @middleware upload.single("profileImageUrl") - Handles profile image upload
+ * @param {Object} req.body - User data (name, email, password, etc.)
+ * @param {File} req.file - Optional profile image file
+ * @returns {Object} Created user object
+ * @throws {Error} If registration or upload fails, performs Cloudinary rollback
+ */
+userRoute.post(
+        "/users",
+        upload.single("profileImageUrl"),
+        async (req, res, next) => {
+        let cloudinaryResult;
+
+            try {
+                let userObj = req.body;
+
+                // Upload profile image to Cloudinary if provided
+                if (req.file) {
+                cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+                }
+
+                // Register user with Cloudinary image URL
+                const newUserObj = await registration({
+                ...userObj,
+                role: "USER",
+                profileImageUrl: cloudinaryResult?.secure_url,
+                });
+
+                res.status(201).json({
+                message: "user created",
+                payload: newUserObj,
+                });
+
+            } catch (err) {
+
+                // Rollback: Delete uploaded image if registration fails
+                if (cloudinaryResult?.public_id) {
+                await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+                }
+
+                next(err);
+            }
+
+        }
+  );
 
 
-//check the product is there in user or not
+/**
+ * PUT /user-cart/:pid - Add product to user cart or increase quantity
+ * @middleware verifyToken("USER") - Requires user authentication
+ * @param {string} pid - Product ID from URL params
+ * @returns {Object} Updated cart with populated product details
+ * @throws {404} If user or product not found
+ */
 userRoute.put('/user-cart/:pid', verifyToken("USER"), async (req, res) => {
     let uid = req.user.userId;
-    //read the url
     let { pid } = req.params;
-    //check the user
+
+    // Verify user exists and is active
     let user = await UserTypeModel.findOne({ _id: uid, isActive: true });
-    // if user not there
     if (!user) {
         return res.status(404).json({ message: "user not found" });
     }
-    // product check
+
+    // Verify product exists and is active
     let product = await ProductModel.findOne({ _id: pid, isActive: true });
     if (!product) {
         return res.status(404).json({ message: "product not found" });
     }
 
-    // check if product already in cart
+    // Check if product already in cart
     let isProductInCart = user.cart.find(
-        item => item.product.toString() === pid  //converts the objectID to string : ObjectId('69806a28c7c118262ebe28d2') to '69806a28c7c118262ebe28d2'
+        item => item.product.toString() === pid
     );
-    //o/p: 
-    //  {product: new ObjectId('69806a28c7c118262ebe28d2'),
-    //_id: new ObjectId('69819496673b876001586f55'),
-    // quantity: 3 }
 
-    // if exists → increase quantity
+    // If exists → increase quantity, else add new item
     if (isProductInCart) {
         isProductInCart.quantity += 1;
     } else {
         user.cart.push({ product: pid, quantity: 1 })
     }
-    //    save db
+
+    // Save updated cart
     await user.save();
 
+    // Return populated cart
     let modifiedUser = await UserTypeModel
         .findOne({ _id: uid })
         .populate("cart.product");
-    // send res
+
     return res.status(200).json({
         message: "Product quantity updated in cart",
         payload: modifiedUser.cart
@@ -100,7 +144,11 @@ userRoute.put('/update-user/:uid', verifyToken("USER"), async (req, res) => {
     }
 
     //get the user details from the req.body
-    let userUpdates = req.body;
+    let userUpdates = Object.fromEntries(
+      Object.entries(req.body).filter(
+        ([key, value]) => value !== undefined && value !== ""
+      )
+    );
 
     let user = await UserTypeModel.findById(userId)
 
@@ -116,12 +164,21 @@ userRoute.put('/update-user/:uid', verifyToken("USER"), async (req, res) => {
 
     let updatedUser = await UserTypeModel.findByIdAndUpdate(userId, { $set: userUpdates }, { new: true });
 
-    updatedUser.password = undefined
+    if (updatedUser) {
+      updatedUser.password = undefined
+      return res.status(200).json({ message: "User Details updated", payload: updatedUser });
+    }
 
-    res.status(200).json({ message: "User Details updated", payload: updatedUser });
+    res.status(500).json({ message: "Unable to update user details" });
 })
 
-//to view cart
+/**
+ * GET /user-cart - Retrieve user's cart items
+ * @middleware verifyToken("USER") - Requires user authentication
+ * @returns {Object} Array of cart items with populated product details
+ * @throws {404} If user not found
+ * @throws {403} If user is blocked by admin
+ */
 userRoute.get('/user-cart',verifyToken("USER"),async(req,res)=>{
     let uid=req.user.userId;
     let user= await UserTypeModel.findOne({_id:uid}).populate("cart.product")
@@ -136,11 +193,17 @@ userRoute.get('/user-cart',verifyToken("USER"),async(req,res)=>{
     return res.status(200).json({message:"cart products",payload:user.cart})
 })
 
-//to remove an item from cart 
+/**
+ * DELETE /remove-cart/:pid - Remove product from user's cart
+ * @middleware verifyToken("USER") - Requires user authentication
+ * @param {string} pid - Product ID to remove from URL params
+ * @returns {Object} Success message
+ * @throws {404} If user not found
+ * @throws {403} If user is blocked by admin
+ */
 userRoute.delete('/remove-cart/:pid',verifyToken("USER"),async(req,res)=>{
     let uid=req.user.userId;
     let {pid}=req.params;
-    console.log(pid);
     let user= await UserTypeModel.findOne({_id:uid}).populate("cart.product")
      if(!user)
     {

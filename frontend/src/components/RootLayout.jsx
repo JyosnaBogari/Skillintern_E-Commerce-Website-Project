@@ -1,12 +1,12 @@
 import { Outlet } from "react-router"
-import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { pageBackground } from "../styles/common"
+import NavBar from "./NavBar"
 
 function RootLayout() {
   return (
     <div className={pageBackground}>
-      <Header />
+      <NavBar/>
       <div className="min-h-screen">
         {/* placeholder  */}
         <Outlet /> 

@@ -11,7 +11,7 @@ export const section        = "mb-8 sm:mb-12 lg:mb-14"
 // ─── Cards ────────────────────────────────────────────
 export const cardClass      = "bg-white rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-200"
 // Enhanced card effect for product items
-export const productCardClass   = "bg-white p-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col gap-2.5 cursor-pointer rounded-lg border border-gray-200"
+export const productCardClass   = "bg-white p-4 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex flex-col gap-2.5 cursor-pointer rounded-lg border border-gray-200 min-h-[400px]"
 // ─── Typography ───────────────────────────────────────
 export const pageTitleClass = "text-2xl sm:text-3xl lg:text-4xl font-bold text-[#131921] tracking-tight leading-none mb-2"
 export const headingClass   = "text-xl sm:text-2xl font-bold text-[#131921] tracking-tight"

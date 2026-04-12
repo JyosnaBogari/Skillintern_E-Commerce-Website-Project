@@ -75,11 +75,11 @@ function UserNavBar() {
             className={navSearchInput + " h-9"}
           />
         </div>
-
+     
         {/* Desktop Nav */}
         <nav className={navLinksClass + " hidden md:block"}>
           <ul className="flex items-center gap-4">
-
+            
             <li>
               <NavLink to="/" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Products
@@ -137,14 +137,14 @@ function UserNavBar() {
                 <div className="absolute right-0 mt-2 bg-white text-black rounded-lg p-3 shadow-lg z-50">
 
                   <button
-                    onClick={() => navigate('/edit-user')}
+                    onClick={() => navigate('/user-profile/edit-user')}
                     className={ghostBtn + " w-full text-left"}
                   >
                     Edit Details
                   </button>
 
                   <button
-                    onClick={() => navigate('/change-password')}
+                    onClick={() => navigate('/user-profile/change-password')}
                     className={ghostBtn + " w-full text-left"}
                   >
                     Change Password
@@ -160,7 +160,7 @@ function UserNavBar() {
                 </div>
               )}
             </li>
-
+                  
           </ul>
         </nav>
 
@@ -225,11 +225,11 @@ function UserNavBar() {
           </NavLink>
 
           <div className="border-t border-gray-700 pt-2 space-y-2">
-            <button onClick={() => navigate('/edit-user')} className={mobileNavLink}>
+            <button onClick={() => navigate('/user-profile/edit-user')} className={mobileNavLink}>
               Edit Details
             </button>
 
-            <button onClick={() => navigate('/change-password')} className={mobileNavLink}>
+            <button onClick={() => navigate('/user-profile/change-password')} className={mobileNavLink}>
               Change Password
             </button>
 

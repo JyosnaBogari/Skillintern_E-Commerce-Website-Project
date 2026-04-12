@@ -63,11 +63,18 @@ export const useAuth = create(
           set({
             loading: false,
             currentUser: null,
-            error: err.response?.data?.error || 'Login Failed',
+            error: err.response?.data?.message|| 'Login Failed',
             isAuthenticated: false,
           });
+          console.log("err",err);
         }
       },
+
+      // set current user data manually
+      setCurrentUser: (user) => set({
+        currentUser: user,
+        isAuthenticated: Boolean(user)
+      }),
 
       // logout function
       logout: async () => {
@@ -88,7 +95,7 @@ export const useAuth = create(
           });
         } catch (err) {
           console.log('err is', err.message);
-
+         
           // handle logout error
           set({
             loading: false,
@@ -99,6 +106,34 @@ export const useAuth = create(
           });
         }
       },
+
+      checkAuth: async () => {
+        try {
+          set({ loading: false, error: null })
+          const res = await axios.get(`${BASE_URL}/common-api/check-auth`, { withCredentials: true })
+          set({
+            currentUser: res.data.payload,
+            isAuthenticated: true,
+            loading: false
+          })
+          await get().refreshCart();
+          
+        } catch (err) {
+          if (err.response?.data?.error === 401) {
+            set({
+              loading: false,
+              isAuthenticated: false,
+              currentUser: null,
+              cartCount: 0
+            })
+            return;
+            console.log("err",err);
+          }
+          // other errors
+          console.error("Auth check failed:", err);
+          set({ loading: false });
+        }
+      }
     }),
     {
       name: 'jyos-auth-storage', // key for localStorage

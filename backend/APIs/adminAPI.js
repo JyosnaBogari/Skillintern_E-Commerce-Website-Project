@@ -1,9 +1,9 @@
-import exp from "express";
+import express from "express";
 import { UserTypeModel } from '../models/userTypeModel.js';
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { OrderModel } from "../models/orderModel.js";
 import { ProductModel } from "../models/productModel.js";
-export const adminRoute = exp.Router();
+export const adminRoute = express.Router();
 
 
 //Block user

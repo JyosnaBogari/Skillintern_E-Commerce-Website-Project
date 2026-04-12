@@ -4,7 +4,7 @@ import PublicNavBar from "./PublicNavBar";
 import UserNavBar from "./UserNavBar";
 import AdminNavBar from "./AdminNavBar";
 
-function Navbar() {
+function NavBar() {
   const currentUser=useAuth(state=>state.currentUser)
   const isAuthenticated=useAuth(state=>state.isAuthenticated)
   // if user not Authenticated and no current user show PublicNavBar
@@ -17,13 +17,13 @@ function Navbar() {
     {
      return <UserNavBar/>
     }
-     // user Authenticated and with role show AdminNavBar
+    // user Authenticated and with role show AdminNavBar
     if(currentUser?.role==="ADMIN")
     {
      return <AdminNavBar/>
-   } 
+    } 
   // default navbar
    return <PublicNavBar/>
 }
 
-export default Navbar;
+export default NavBar;

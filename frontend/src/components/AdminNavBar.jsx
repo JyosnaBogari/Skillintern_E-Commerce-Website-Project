@@ -73,25 +73,25 @@ function AdminNavBar() {
             </li>
             <li>
               {/* add new product page */}
-              <NavLink to="/add-product" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/admin-profile/add-product" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Add Product
               </NavLink>
             </li>
             <li>
               {/* view all users */}
-              <NavLink to="/users" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/admin-profile/users" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Users
               </NavLink>
             </li>
             <li>
               {/* view all orders */}
-              <NavLink to="/orders" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/admin-profile/orders" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Orders
               </NavLink>
             </li>
             <li>
               {/* manage products */}
-              <NavLink to="/admin-products" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
+              <NavLink to="/admin-profile/admin-products" className={({ isActive }) => isActive ? navLinkActiveClass : navLinkClass}>
                 Products
               </NavLink>
             </li>
@@ -149,7 +149,7 @@ function AdminNavBar() {
           </NavLink>
 
           <NavLink
-            to="/add-product"
+            to="/admin-profile/add-product"
             className={mobileNavLink}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -157,7 +157,7 @@ function AdminNavBar() {
           </NavLink>
 
           <NavLink
-            to="/users"
+            to="/admin-profile/users"
             className={mobileNavLink}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -165,7 +165,7 @@ function AdminNavBar() {
           </NavLink>
 
           <NavLink
-            to="/orders"
+            to="/admin-profile/orders"
             className={mobileNavLink}
             onClick={() => setIsMenuOpen(false)}
           >
@@ -173,7 +173,7 @@ function AdminNavBar() {
           </NavLink>
 
           <NavLink
-            to="/admin-products"
+            to="/admin-profile/admin-products"
             className={mobileNavLink}
             onClick={() => setIsMenuOpen(false)}
           >

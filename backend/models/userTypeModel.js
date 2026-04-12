@@ -44,6 +44,10 @@ export const userSchema=new Schema({
         type:Boolean,
         default:true  //whenever the user registed/login by default isActive set to true
     },
+    profileImageUrl: {
+    type: String,
+    default: ""
+  },
     cart:
     {
         type:[cartItem]

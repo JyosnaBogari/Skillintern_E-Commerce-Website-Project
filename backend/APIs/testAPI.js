@@ -1,7 +1,7 @@
-import exp from "express";
+import express from "express";
 import { razorpay } from "../utils/razorpay.js";
 
-export const testRoute = exp.Router();
+export const testRoute = express.Router();
 
 
 testRoute.get("/test-razorpay", async (req, res) => {

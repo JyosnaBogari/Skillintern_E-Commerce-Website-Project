@@ -11,7 +11,7 @@ export const section        = "mb-8 sm:mb-12 lg:mb-14"
 // ─── Cards ────────────────────────────────────────────
 export const cardClass      = "bg-white rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-200"
 // Enhanced card effect for product items
-export const productCardClass   = "bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
+export const productCardClass   = "bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer min-h-[520px]"
 // ─── Typography ───────────────────────────────────────
 export const pageTitleClass = "text-2xl sm:text-3xl lg:text-4xl font-bold text-[#131921] tracking-tight leading-none mb-2"
 export const headingClass   = "text-xl sm:text-2xl font-bold text-[#131921] tracking-tight"
@@ -90,7 +90,7 @@ export const divider            = "border-t border-[#e8e8ed] my-10"
 
 //product 
 // export const productImage="w-24 h-24 sm:w-32 sm:h-32 object-contain mx-auto"
-export const productImage ="w-full h-56 sm:h-64 md:h-72 object-contain rounded-md bg-[#fafafa]"
+export const productImage ="w-full h-72 sm:h-80 md:h-96 lg:h-[28rem] object-cover rounded-md bg-[#fafafa]"
 export const productName = "text-left text-sm sm:text-base md:text-lg lg:text-xl font-bold"
 // cart
 // Cart

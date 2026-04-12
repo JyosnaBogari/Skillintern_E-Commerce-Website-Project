@@ -23,6 +23,7 @@ function EditUser() {
   // Get currently logged-in user from global state
   const currentUser = useAuth(state => state.currentUser)
   const setCurrentUser = useAuth(state => state.setCurrentUser)
+  const currentUserId = currentUser?._id || currentUser?.userId
 
   useEffect(() => {
     if (currentUser) {
@@ -36,13 +37,13 @@ function EditUser() {
 
   const updateUser = async (data) => {
     try {
-      if (!currentUser?._id) {
+      if (!currentUserId) {
         toast.error("Unable to update profile. Please sign in again.")
         return
       }
 
       const response = await axios.put(
-        `${BASE_URL}/user-api/update-user/${currentUser._id}`,
+        `${BASE_URL}/user-api/update-user/${currentUserId}`,
         data,
         { withCredentials: true } // Include authentication cookies
       )

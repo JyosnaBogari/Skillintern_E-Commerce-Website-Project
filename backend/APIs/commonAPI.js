@@ -68,9 +68,13 @@ commonRoute.put('/change-password', verifyToken("USER"), async (req, res) => {
 
 //page refresh 
 commonRoute.get('/check-auth',verifyToken("USER","ADMIN"),async(req,res)=>{
+    let user = await UserTypeModel.findById(req.user.userId).select('-password');
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
 
     res.status(200).json({
         message:"authenticated",
-        payload:req.user
+        payload:user
     })
 })

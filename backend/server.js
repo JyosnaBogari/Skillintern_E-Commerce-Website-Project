@@ -23,8 +23,8 @@ app.use(cors({
     "http://localhost:5173", // Vite frontend
     "http://localhost:3000",
     "https://skillintern-e-commerce-website-proj.vercel.app",
-    "https://skillintern-e-commerce-websi-git-4a6f20-jyosna-bogaris-projects.vercel.app",
-    "https://skillintern-e-commerce-website-project-f5spb6umt.vercel.app"
+    "https://skillintern-e-commerce-website-project-9nyw3hn51.vercel.app",
+    "skillintern-e-commerce-websi-git-4a6f20-jyosna-bogaris-projects.vercel.app"
   ],
   credentials: true
 }));

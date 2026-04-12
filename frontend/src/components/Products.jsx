@@ -174,14 +174,13 @@ function Products() {
 
   //   UI
   return (
-    <div className={pageWrapper}>
-
+    <>
       {/* HERO SECTION */}
       <section className="relative w-full overflow-hidden shadow-lg mb-6">
         <img
           src={heroImages[heroIndex].src}
           alt={heroImages[heroIndex].alt}
-         className="w-full h-[220px] sm:h-[300px] md:h-[380px] lg:h-[500px] object-cover"
+          className="w-full h-55 sm:h-75 md:h-95 lg:h-125 object-cover"
         />
 
         {/* Overlay content */}
@@ -199,7 +198,8 @@ function Products() {
         </div>
       </section>
 
-    <div className="px-3 sm:px-6 md:px-8 lg:px-10 xl:px-16">
+      <div className={pageWrapper}>
+        <div className="px-3 sm:px-6 md:px-8 lg:px-10 xl:px-16">
       {/* WISHLIST BUTTON */}
       <div className="flex justify-end mb-4 ">
         <div
@@ -332,8 +332,9 @@ function Products() {
 
       </div>
 
-    </div>
-    </div>
+        </div>
+      </div>
+    </>
   )
 }
 

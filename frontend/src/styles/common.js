@@ -95,7 +95,7 @@ export const productName = "text-center text-sm sm:text-base md:text-lg lg:text-
 // cart
 // Cart
 export const cartWrapper = "max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12"
-export const cartCard = "bg-white rounded-lg p-4 mb-4 sm:mb-6 hover:shadow-lg transition-shadow border border-gray-200"
+export const cartCard = "bg-white rounded-lg p-4 mb-4 sm:mb-6 hover:shadow-lg transition-shadow border border-gray-200 overflow-hidden"
 export const priceText = "text-xs sm:text-sm text-[#666]"
 export const quantityText = "text-xs sm:text-sm text-[#666]"
 export const totalPriceClass = "text-lg sm:text-xl font-semibold text-[#131921] mt-4 sm:mt-6"
